@@ -1,4 +1,4 @@
-# Vite + Svelte + Azle
+# GardenVille
 
 ## Getting started 
 
