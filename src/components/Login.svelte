@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { AuthClient } from './auth'; 
+  // import { AuthClient } from './auth';
+  import { AuthClient } from "@dfinity/auth-client";
   import gardenImage from '../assets/garden.jpg';
 
   export let isAuthenticated : boolean;
@@ -16,7 +17,7 @@
       maxTimeToLive: BigInt(7 * 24 * 60 * 60 * 1000 * 1000 * 1000),
       onSuccess: async () => {
         isAuthenticated = true;
-        // const identity = await authClient.getIdentity();
+        const identity = authClient.getIdentity();
         // const principal = identity.getPrincipal().toString();
       },
     });
