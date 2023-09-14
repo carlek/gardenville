@@ -4,12 +4,12 @@ type Gardener = record {
   plantsGrowing : vec PlantsGrowing;
   productsAvailable : vec ProductsAvailable;
 };
-type GardenerInfo = record { id : nat16; contact : text; name : text };
+type GardenerInfo = record { id : text; contact : text; name : text };
 type Plant = record { plantName : text };
 type PlantsGrowing = record { plantName : text; quantity : nat16 };
 type ProductsAvailable = record { productName : text; quantity : nat16 };
 service : () -> {
   createGardener : (GardenerInfo) -> ();
-  getGardener : (nat16) -> (opt Gardener) query;
+  getGardener : (text) -> (opt Gardener) query;
   principalCaller : () -> (principal) query;
 }

@@ -2,7 +2,7 @@ import { $query, $update, Opt, ic, Principal, nat16, StableBTreeMap, Record, Vec
 
 $query
 export function principalCaller(): Principal {
-    return ic.caller();
+    return ic.caller();    
 }
 
 type Plant = Record<{
@@ -20,7 +20,7 @@ type ProductsAvailable = Record<{
 }>;
 
 type GardenerInfo = Record<{
-    id: nat16;
+    id: string;         // principal
     name: string;
     contact: string;
 }>;
@@ -32,7 +32,7 @@ type Gardener = Record<{
     contestEntry: Vec<Plant>;
 }>;
 
-type Key = nat16;
+type Key = string;
 type Value = Gardener;
 
 let gdb = new StableBTreeMap<Key, Value>(0, 100, 10_000);
@@ -54,6 +54,6 @@ export function createGardener(info: GardenerInfo): void {
 }
 
 $query;
-export function getGardener(id: nat16): Opt<Gardener>  {
+export function getGardener(id: string): Opt<Gardener>  {
     return gdb.get(id);
 }

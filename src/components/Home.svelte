@@ -1,6 +1,7 @@
 <script lang='ts'>
   import Login from '../components/Login.svelte';
   export let isAuthenticated : boolean;
+  export let principal : string;
   import { backend } from "../declarations/backend/index.js";
 
   let gardenerId : string;
@@ -21,12 +22,10 @@
                          : "background-image: none;"}>
 
   {#if isAuthenticated}
-    <h1>Welcome {gardenerId} to GardenVille!</h1>
-    <button class="logout-button" on:click={handleLogout}>
-      Logout
-    </button>
+    <h1>Welcome {principal} to GardenVille!</h1>
+    <button class="logout-button" on:click={handleLogout}>Logout</button> 
   {:else}
-    <Login bind:isAuthenticated />
+    <Login bind:isAuthenticated bind:principal/>
   {/if}
 </main>
 

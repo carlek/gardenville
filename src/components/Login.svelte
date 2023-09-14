@@ -2,9 +2,18 @@
   // import { AuthClient } from './auth';
   import { AuthClient } from "@dfinity/auth-client";
   import gardenImage from '../assets/garden.jpg';
+  export let isAuthenticated : boolean = false;
+  export let principal : string;
 
-  export let isAuthenticated : boolean;
+  const handleLoginSuccess = (authClient: AuthClient) => {
+    isAuthenticated = true;
+    principal = authClient.getIdentity().getPrincipal().toString(); 
+  };
 
+  const handleLoginFail = (error?: string) => {
+    console.error('Login Failed: ', error);
+  }
+ 
   const login = async () => {
     const authClient = await AuthClient.create();
     const isLocalNetwork = process.env.DFX_NETWORK == 'local';
@@ -16,10 +25,11 @@
       identityProvider: identityProviderUrl,
       maxTimeToLive: BigInt(7 * 24 * 60 * 60 * 1000 * 1000 * 1000),
       onSuccess: async () => {
-        isAuthenticated = true;
-        const identity = authClient.getIdentity();
-        // const principal = identity.getPrincipal().toString();
+        handleLoginSuccess(authClient);
       },
+      onError: (error?: string) => {
+        handleLoginFail(error);
+      }
     });
   };
 
