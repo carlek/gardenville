@@ -5,12 +5,11 @@
   import { backend } from "../declarations/backend/index.js";
 
   let gardenerId : string;
-
-  const getCaller = async() => {
+  const initHome = async() => {
     const caller = await backend.principalCaller();
     gardenerId = caller.toString();
   }
-  getCaller();
+  initHome();
 
   const handleLogout = () => {
     isAuthenticated = false;
@@ -22,7 +21,7 @@
                          : "background-image: none;"}>
 
   {#if isAuthenticated}
-    <h1>Welcome {#if principal}{principal}{/if} to GardenVille!</h1>
+    <h1>Welcome {principal} to GardenVille!</h1>
     <button class="logout-button" on:click={handleLogout}>Logout</button> 
   {:else}
     <Login bind:isAuthenticated bind:principal/>

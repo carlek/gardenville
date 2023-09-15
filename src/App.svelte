@@ -4,15 +4,16 @@
   import HomePage from "./components/Home.svelte"
 
   let isAuthenticated : boolean = false;
-  
+  let principal : string;
+
 </script>
 
 <main>
      
   {#if isAuthenticated}
-    <HomePage {isAuthenticated} />
+    <HomePage {isAuthenticated} {principal} />
   {:else}
-    <Login bind:isAuthenticated />
+    <Login bind:isAuthenticated bind:principal />
   {/if}
 
 </main>
