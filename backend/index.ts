@@ -20,7 +20,7 @@ type ProductsAvailable = Record<{
 }>;
 
 type GardenerInfo = Record<{
-    id: string;         // principal
+    id: string;
     name: string;
     contact: string;
 }>;
@@ -54,6 +54,8 @@ export function createGardener(info: GardenerInfo): void {
 }
 
 $query;
-export function getGardener(id: string): Opt<Gardener>  {
-    return gdb.get(id);
+export function getGardener(id: string): Opt<Gardener> {
+    console.log(`in getGardener(${id})`);
+    const gardener = gdb.get(id);
+    return gardener;
 }

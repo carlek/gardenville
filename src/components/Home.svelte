@@ -1,19 +1,29 @@
 <script lang='ts'>
+
   import Login from '../components/Login.svelte';
+  import { onMount } from 'svelte';
   export let isAuthenticated : boolean;
   export let principal : string;
   import { backend } from "../declarations/backend/index.js";
 
   let gardenerId : string;
+  let gardenerName : string | undefined;
   const initHome = async() => {
     const caller = await backend.principalCaller();
     gardenerId = caller.toString();
+    console.log(principal)
+    const result = await backend.getGardener(principal);
+    console.log(result);
+    const gardener = result[0];
+    gardenerName = gardener ? gardener.info.name : undefined;
   }
-  initHome();
+
+  onMount(initHome);
 
   const handleLogout = () => {
     isAuthenticated = false;
   };
+
 </script>
 
 <main class="home-page"
@@ -21,7 +31,7 @@
                          : "background-image: none;"}>
 
   {#if isAuthenticated}
-    <h1>Welcome {principal} to GardenVille!</h1>
+    <h1>Welcome {#if gardenerName}{gardenerName}{:else}{principal.toString()}{/if} to GardenVille!</h1>
     <button class="logout-button" on:click={handleLogout}>Logout</button> 
   {:else}
     <Login bind:isAuthenticated bind:principal/>
