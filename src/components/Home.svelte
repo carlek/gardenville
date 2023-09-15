@@ -7,7 +7,7 @@
   import { backend } from "../declarations/backend/index.js";
 
   let gardenerId : string;
-  let gardenerName : string | undefined;
+  let gardenerName : string | undefined = undefined;
   const initHome = async() => {
     const caller = await backend.principalCaller();
     gardenerId = caller.toString();
