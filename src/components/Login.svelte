@@ -3,7 +3,7 @@
   import { AuthClient } from "@dfinity/auth-client";
   import gardenImage from '../assets/garden.jpg';
   export let isAuthenticated : boolean = false;
-  export let principal : string;
+  export let principal : string | null;
 
   const handleLoginSuccess = (authClient: AuthClient) => {
     isAuthenticated = true;

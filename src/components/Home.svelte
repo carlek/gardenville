@@ -1,38 +1,24 @@
 <script lang='ts'>
 
-  import Login from '../components/Login.svelte';
-  import { onMount } from 'svelte';
   export let isAuthenticated : boolean;
-  export let principal : string;
+  export let principal : string | null;
+  export let handleLogout: () => void;
+
+  import { onMount } from 'svelte';
   import { backend } from "../declarations/backend/index.js";
 
-  let gardenerId : string;
-  let gardenerName : string | undefined = undefined;
-  const initHome = async() => {
-    const caller = await backend.principalCaller();
-    gardenerId = caller.toString();
-    console.log(principal)
-    const result = await backend.getGardener(principal);
-    console.log(result);
-    const gardener = result[0];
-    gardenerName = gardener ? gardener.info.name : undefined;
+  let gardenerName : string | null = null;
 
-    const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
-    const storedPrincipal = localStorage.getItem('principal');
-    if (storedIsAuthenticated === 'true' && storedPrincipal) {
-      isAuthenticated = true;
-      principal = storedPrincipal;
+  onMount(async () => {
+    if (isAuthenticated && principal) {
+      const result = await backend.getGardener(principal);
+      const gardener = result[0];
+      gardenerName = gardener ? gardener.info.name : null;
     }
-    console.log(`isAuthenticated=${isAuthenticated}`);
-    console.log(`principal=${principal}`);
-  }
+  });
 
-  onMount(initHome);
-
-  const handleLogout = () => {
-    isAuthenticated = false;
-    localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('principal');
+  const handleSignup = () => {
+    console.log(`signup: ${principal}`);
   };
 
 </script>
@@ -42,11 +28,14 @@
                          : "background-image: none;"}>
 
   {#if isAuthenticated}
-    <h1>Welcome {#if gardenerName}{gardenerName}{:else}New User{/if} to GardenVille!</h1>
+    {#if gardenerName}
+      <h1>Welcome {gardenerName} to GardenVille!</h1>
+    {:else}
+      <h1>Welcome New User to GardenVille!</h1>
+      <button class="signup-button" on:click={handleSignup}>Signup</button>
+    {/if}
     <button class="logout-button" on:click={handleLogout}>Logout</button> 
-  {:else}
-    <Login bind:isAuthenticated bind:principal/>
-  {/if}
+  {/if} 
 </main>
 
 <style>
@@ -67,6 +56,23 @@
     position: absolute;
     top: 1rem;
     right: 1rem;
+    background-color: #646cff; /* Background color for the button */
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem; /* Added padding for the button */
+    border-radius: 4px; /* Rounded corners for the button */
+    font-weight: bold; /* Make the text bold for better visibility */
+    cursor: pointer;
+    transition: background-color 0.2s; /* Smooth transition for hover effect */
+    &:hover {
+      background-color: #e62828;
+    }
+  }
+  .signup-button {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: #646cff; /* Background color for the button */
     border: none;
     color: white;
