@@ -1,27 +1,27 @@
 <script lang="ts">
   // import { AuthClient } from './auth';
   import { AuthClient } from "@dfinity/auth-client";
-  import gardenImage from '../assets/garden.jpg';
-  export let isAuthenticated : boolean = false;
-  export let principal : string | null;
+  import gardenImage from "../assets/garden.jpg";
+  export let isAuthenticated: boolean = false;
+  export let principal: string | null;
 
   const handleLoginSuccess = (authClient: AuthClient) => {
     isAuthenticated = true;
-    principal = authClient.getIdentity().getPrincipal().toString(); 
-    localStorage.setItem('isAuthenticated', 'true');
-    localStorage.setItem('principal', principal);
+    principal = authClient.getIdentity().getPrincipal().toString();
+    localStorage.setItem("isAuthenticated", "true");
+    localStorage.setItem("principal", principal);
   };
 
   const handleLoginFail = (error?: string) => {
-    console.error('Login Failed: ', error);
-  }
- 
+    console.error("Login Failed: ", error);
+  };
+
   const login = async () => {
     const authClient = await AuthClient.create();
-    const isLocalNetwork = process.env.DFX_NETWORK == 'local';
-    const identityProviderUrl = isLocalNetwork ? 
-        `http://127.0.0.1:4943/?canisterId=${process.env.CANISTER_ID_INTERNET_IDENTITY}` : 
-        'https://identity.ic0.app/';
+    const isLocalNetwork = process.env.DFX_NETWORK == "local";
+    const identityProviderUrl = isLocalNetwork
+      ? `http://127.0.0.1:4943/?canisterId=${process.env.CANISTER_ID_INTERNET_IDENTITY}`
+      : "https://identity.ic0.app/";
 
     authClient.login({
       identityProvider: identityProviderUrl,
@@ -31,30 +31,24 @@
       },
       onError: (error?: string) => {
         handleLoginFail(error);
-      }
+      },
     });
   };
-
 </script>
 
 <main>
-
-  <p class="gardenville-motto">
-    plant - grow - share
-  </p>
+  <p class="gardenville-motto">plant - grow - share</p>
 
   <div>
-    <img src={gardenImage} class="logo" alt="Garden"/>
+    <img src={gardenImage} class="logo" alt="Garden" />
   </div>
 
-  
   {#if isAuthenticated}
-    <button on:click={() => isAuthenticated = false}>Logout</button>
+    <button on:click={() => (isAuthenticated = false)}>Logout</button>
   {:else}
     <button on:click={login}>Login</button>
   {/if}
-
-  </main>
+</main>
 
 <style lang="scss">
   .logo {

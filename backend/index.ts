@@ -2,7 +2,7 @@ import { $query, $update, Opt, ic, Principal, nat16, StableBTreeMap, Record, Vec
 
 $query
 export function principalCaller(): Principal {
-    return ic.caller();    
+    return ic.caller();
 }
 
 type Plant = Record<{

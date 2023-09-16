@@ -1,13 +1,12 @@
-<script lang='ts'>
-
-  export let isAuthenticated : boolean;
-  export let principal : string | null;
+<script lang="ts">
+  export let isAuthenticated: boolean;
+  export let principal: string | null;
   export let handleLogout: () => void;
 
-  import { onMount } from 'svelte';
+  import { onMount } from "svelte";
   import { backend } from "../declarations/backend/index.js";
 
-  let gardenerName : string | null = null;
+  let gardenerName: string | null = null;
   let isInitialized = false;
 
   onMount(async () => {
@@ -22,13 +21,14 @@
   const handleSignup = () => {
     console.log(`signup: ${principal}`);
   };
-
 </script>
 
-<main class="home-page"
-  style={isAuthenticated ? "background-image: url('../assets/garden.jpg');"
-                         : "background-image: none;"}>
-
+<main
+  class="home-page"
+  style={isAuthenticated
+    ? "background-image: url('../assets/garden.jpg');"
+    : "background-image: none;"}
+>
   {#if isAuthenticated && isInitialized}
     {#if gardenerName !== null}
       <h1>Welcome {gardenerName} to GardenVille!</h1>
@@ -38,14 +38,13 @@
       <button class="signup-button" on:click={handleSignup}>Signup</button>
     {/if}
     <img src="../assets/icp-logo.png" alt="ICP Logo" class="icp-logo" />
-    <button class="logout-button" on:click={handleLogout}>Logout</button> 
-
-  {/if} 
+    <button class="logout-button" on:click={handleLogout}>Logout</button>
+  {/if}
 </main>
 
 <style>
   .home-page {
-    background-image: url('../assets/garden.jpg');
+    background-image: url("../assets/garden.jpg");
     background-size: cover;
     background-position: center;
     display: flex;
@@ -92,7 +91,7 @@
     }
   }
   .icp-logo {
-    width: 60px;    
+    width: 60px;
     position: absolute;
     top: 1rem;
     left: 5%;
@@ -104,9 +103,11 @@
   }
 
   @keyframes spin {
-    0% { transform: rotate(0deg); } /* Start at 0 degrees */
-    100% { transform: rotate(360deg); } /* End at 360 degrees (1 full revolution) */
+    0% {
+      transform: rotate(0deg);
+    } /* Start at 0 degrees */
+    100% {
+      transform: rotate(360deg);
+    } /* End at 360 degrees (1 full revolution) */
   }
-
-
 </style>
