@@ -8,12 +8,14 @@
   import { backend } from "../declarations/backend/index.js";
 
   let gardenerName : string | null = null;
+  let isInitialized = false;
 
   onMount(async () => {
     if (isAuthenticated && principal) {
       const result = await backend.getGardener(principal);
       const gardener = result[0];
       gardenerName = gardener ? gardener.info.name : null;
+      isInitialized = true;
     }
   });
 
@@ -27,14 +29,17 @@
   style={isAuthenticated ? "background-image: url('../assets/garden.jpg');"
                          : "background-image: none;"}>
 
-  {#if isAuthenticated}
-    {#if gardenerName}
+  {#if isAuthenticated && isInitialized}
+    {#if gardenerName !== null}
       <h1>Welcome {gardenerName} to GardenVille!</h1>
     {:else}
-      <h1>Welcome New User to GardenVille!</h1>
+      <h1>Welcome to GardenVille!</h1>
+      <h2>Sign up to start your Gardening Journey</h2>
       <button class="signup-button" on:click={handleSignup}>Signup</button>
     {/if}
+    <img src="../assets/icp-logo.png" alt="ICP Logo" class="icp-logo" />
     <button class="logout-button" on:click={handleLogout}>Logout</button> 
+
   {/if} 
 </main>
 
@@ -48,6 +53,7 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
+    width: 100vh;
     color: white;
     position: relative;
   }
@@ -85,4 +91,22 @@
       background-color: #e62828;
     }
   }
+  .icp-logo {
+    width: 60px;    
+    position: absolute;
+    top: 1rem;
+    left: 5%;
+    transition: transform 0.3s; /* Add transition */
+  }
+
+  .icp-logo:hover {
+    animation: spin 1s linear; /* Add animation on hover */
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); } /* Start at 0 degrees */
+    100% { transform: rotate(360deg); } /* End at 360 degrees (1 full revolution) */
+  }
+
+
 </style>
