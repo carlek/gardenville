@@ -3,8 +3,8 @@
   import Login from './components/Login.svelte';
   import HomePage from "./components/Home.svelte"
 
-  let isAuthenticated : boolean = false;
-  let principal : string;
+  let isAuthenticated : boolean = localStorage.getItem('isAuthenticated') === 'true';
+  let principal: string = localStorage.getItem('principal') ?? 'New User';
 
 </script>
 
@@ -17,5 +17,3 @@
   {/if}
 
 </main>
-
-

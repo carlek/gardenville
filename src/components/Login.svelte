@@ -8,6 +8,8 @@
   const handleLoginSuccess = (authClient: AuthClient) => {
     isAuthenticated = true;
     principal = authClient.getIdentity().getPrincipal().toString(); 
+    localStorage.setItem('isAuthenticated', 'true');
+    localStorage.setItem('principal', principal);
   };
 
   const handleLoginFail = (error?: string) => {

@@ -16,12 +16,23 @@
     console.log(result);
     const gardener = result[0];
     gardenerName = gardener ? gardener.info.name : undefined;
+
+    const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
+    const storedPrincipal = localStorage.getItem('principal');
+    if (storedIsAuthenticated === 'true' && storedPrincipal) {
+      isAuthenticated = true;
+      principal = storedPrincipal;
+    }
+    console.log(`isAuthenticated=${isAuthenticated}`);
+    console.log(`principal=${principal}`);
   }
 
   onMount(initHome);
 
   const handleLogout = () => {
     isAuthenticated = false;
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('principal');
   };
 
 </script>
@@ -31,7 +42,7 @@
                          : "background-image: none;"}>
 
   {#if isAuthenticated}
-    <h1>Welcome {#if gardenerName}{gardenerName}{:else}{principal.toString()}{/if} to GardenVille!</h1>
+    <h1>Welcome {#if gardenerName}{gardenerName}{:else}New User{/if} to GardenVille!</h1>
     <button class="logout-button" on:click={handleLogout}>Logout</button> 
   {:else}
     <Login bind:isAuthenticated bind:principal/>
