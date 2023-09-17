@@ -2,6 +2,7 @@
   // import { AuthClient } from './auth';
   import { AuthClient } from "@dfinity/auth-client";
   import gardenImage from "../assets/garden.jpg";
+  import "../styles/styles.css";
   export let isAuthenticated: boolean = false;
   export let principal: string | null;
 
@@ -49,18 +50,3 @@
     <button on:click={login}>Login</button>
   {/if}
 </main>
-
-<style lang="scss">
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-  }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .gardenville-motto {
-    color: #888;
-  }
-</style>
