@@ -34,7 +34,7 @@
 
 <main>
     {#if showSignup}
-        <Signup {isAuthenticated} />
+        <Signup {isAuthenticated} {principal} {toggleSignup}/>
     {:else}
         {#if isAuthenticated}
             <Home {isAuthenticated} {principal} {handleLogout} {toggleSignup}/>

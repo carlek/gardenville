@@ -1,14 +1,25 @@
 <script lang="ts">
     import "../styles/styles.css";
-    
+    import { backend } from "../declarations/backend/index.js";
+
+    export let toggleSignup: () => void;
     export let isAuthenticated: boolean;
+    export let principal: string | null;
 
     let name = "";
     let contact = "";
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log("Name:", name);
         console.log("Contact:", contact);
+
+        if (principal) {
+            const gardenerInfo = { id: principal, name, contact };
+            await backend.createGardener(gardenerInfo);
+            toggleSignup();
+        } else {
+            console.error("No authenticated user available.");
+        }
     };
 </script>
 
