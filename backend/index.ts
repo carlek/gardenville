@@ -1,4 +1,6 @@
-import { $query, $update, Opt, ic, Principal, nat16, StableBTreeMap, Record, Vec } from 'azle';
+import { 
+    $query, $update, Opt, ic, Principal, nat16, StableBTreeMap, Record, match, Vec 
+    } from 'azle';
 
 $query
 export function principalCaller(): Principal {
@@ -58,4 +60,52 @@ export function getGardener(id: string): Opt<Gardener> {
     console.log(`in getGardener(${id})`);
     const gardener = gdb.get(id);
     return gardener;
+}
+
+$query;
+export function getGardeners(): Vec<Gardener> {
+    return gdb.values();
+}
+
+$update;
+export function addPlantGrowing(id: string, plantName: string, quantity: nat16): void {
+    const gardenerOpt = gdb.get(id);
+
+    match(gardenerOpt, {
+        Some: (gardener) => {
+            const plantGrowing: PlantsGrowing = {
+                plantName,
+                quantity
+            };
+            gardener.plantsGrowing.push(plantGrowing);
+            gdb.remove(id);
+            gdb.insert(id, gardener);
+            console.log(`Added ${quantity} ${plantName}(s) to plantsGrowing for Gardener ${id}`);
+        },
+        None: () => {
+            console.error(`Gardener ${id} not found.`);
+        }
+    });
+}
+
+$update;
+export function deletePlantGrowing(id: string, plantName: string): void {
+    const gardenerOpt = gdb.get(id);
+
+    match(gardenerOpt, {
+        Some: (gardener) => {
+            const index = gardener.plantsGrowing.findIndex(plant => plant.plantName === plantName);
+            if (index !== -1) {
+                gardener.plantsGrowing.splice(index, 1);
+                gdb.remove(id);
+                gdb.insert(id, gardener);
+                console.log(`Deleted ${plantName} from plantsGrowing for Gardener ${id}`);
+            } else {
+                console.error(`${plantName} not found in plantsGrowing for Gardener ${id}`);
+            }
+        },
+        None: () => {
+            console.error(`Gardener ${id} not found.`);
+        }
+    });
 }
