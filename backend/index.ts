@@ -11,7 +11,7 @@ type Plant = Record<{
     plantName: string;
 }>;
 
-type PlantsGrowing = Record<{
+type PlantGrowing = Record<{
     plantName: string;
     quantity: nat16;
 }>;
@@ -29,7 +29,7 @@ type GardenerInfo = Record<{
 
 type Gardener = Record<{
     info: GardenerInfo;
-    plantsGrowing: Vec<PlantsGrowing>;
+    plantsGrowing: Vec<PlantGrowing>;
     productsAvailable: Vec<ProductsAvailable>;
     contestEntry: Vec<Plant>;
 }>;
@@ -73,7 +73,7 @@ export function addPlantGrowing(id: string, plantName: string, quantity: nat16):
 
     match(gardenerOpt, {
         Some: (gardener) => {
-            const plantGrowing: PlantsGrowing = {
+            const plantGrowing: PlantGrowing = {
                 plantName,
                 quantity
             };
