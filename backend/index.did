@@ -11,6 +11,7 @@ type ProductsAvailable = record { productName : text; quantity : nat16 };
 service : () -> {
   addPlantGrowing : (text, text, nat16) -> ();
   createGardener : (GardenerInfo) -> ();
+  deleteGardener : (text) -> ();
   deletePlantGrowing : (text, text) -> ();
   getGardener : (text) -> (opt Gardener) query;
   getGardeners : () -> (vec Gardener) query;

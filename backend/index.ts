@@ -55,6 +55,17 @@ export function createGardener(info: GardenerInfo): void {
     }
 }
 
+$update;
+export function deleteGardener(id: string): void {
+    console.log(`in deleteGardener(${id})`);
+    if (!gdb.containsKey(id)) {
+        console.log(`Gardener with ID ${id} does not exist.`);
+    } else {
+        const gardener = gdb.remove(id);
+        console.log(`Gardener ${gardener.Some?.info.name} deleted.`);
+    }
+}
+
 $query;
 export function getGardener(id: string): Opt<Gardener> {
     console.log(`in getGardener(${id})`);
@@ -101,11 +112,11 @@ export function deletePlantGrowing(id: string, plantName: string): void {
                 gdb.insert(id, gardener);
                 console.log(`Deleted ${plantName} from plantsGrowing for Gardener ${id}`);
             } else {
-                console.error(`${plantName} not found in plantsGrowing for Gardener ${id}`);
+                console.log(`${plantName} not found in plantsGrowing for Gardener ${id}`);
             }
         },
         None: () => {
-            console.error(`Gardener ${id} not found.`);
+            console.log(`Gardener ${id} not found.`);
         }
     });
 }
