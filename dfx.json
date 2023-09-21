@@ -13,6 +13,11 @@
       "type": "assets",
       "source": ["dist/"]
     },
+    "icrc1_ledger": {
+      "type": "custom",
+      "wasm": "icrc1/icrc1_ledger.wasm.gz",
+      "candid": "icrc1/icrc1_ledger.did"
+    },
     "internet_identity": {
       "type": "custom",
       "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
