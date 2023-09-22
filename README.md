@@ -11,7 +11,7 @@ Greetings, Green Thumbs and Digital Plant Enthusiasts! 🌿 Step into the future
 
 ### From Soil to Screen: Your Gardening Oasis Goes Decentralized!
 
-With GardenVille, your gardening journey transcends physical boundaries. Join a thriving community of fellow horticulturalists on the Internet Computer, where you'll plan, nurture, and flaunt your botanical marvels. Showcase your prize-winning produce and revel in the verdant triumphs of others, all within this flourishing digital ecosystem.
+With GardenVille, your gardening journey transcends physical boundaries. Join a thriving community of fellow horticulturalists on the Internet Computer, where you'll plan, nurture, and flaunt your botanical marvels. Showcase your prize-winning produce and revel in the green-thumb triumphs of others, all within this flourishing digital ecosystem.
 
 ### Marketplace of Green Innovation: Where Ideas Bloom into Reality!
 
