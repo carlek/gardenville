@@ -3,7 +3,7 @@
     "backend": {
       "type": "custom",
       "build": "npx azle backend",
-      "root": "src",
+      "root": "backend",
       "ts": "backend/index.ts",
       "candid": "backend/index.did",
       "wasm": ".azle/backend/backend.wasm.gz"
