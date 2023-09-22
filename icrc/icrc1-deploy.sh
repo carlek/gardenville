@@ -10,7 +10,7 @@ export ARCHIVE_CONTROLLER=$(dfx identity get-principal)
 export TOKEN_NAME="GardenVilleToken"
 export TOKEN_SYMBOL=XGVT
 
-dfx deploy --network ${NETWORK} icrc1_ledger --argument '(variant { Init = 
+dfx deploy --network ${NETWORK} icrc_ledger --argument '(variant { Init = 
       record {
         token_name = "'${TOKEN_NAME}'";
         token_symbol = "'${TOKEN_SYMBOL}'";

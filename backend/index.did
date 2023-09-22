@@ -15,5 +15,7 @@ service : () -> {
   deletePlantGrowing : (text, text) -> ();
   getGardener : (text) -> (opt Gardener) query;
   getGardeners : () -> (vec Gardener) query;
+  getIcrcName : (principal) -> (text) query;
+  getIcrcSymbol : (principal) -> (text) query;
   principalCaller : () -> (principal) query;
 }

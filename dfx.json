@@ -13,10 +13,10 @@
       "type": "assets",
       "source": ["dist/"]
     },
-    "icrc1_ledger": {
+    "icrc_ledger": {
       "type": "custom",
-      "wasm": "icrc1/icrc1_ledger.wasm.gz",
-      "candid": "icrc1/icrc1_ledger.did"
+      "wasm": "icrc/icrc1_ledger.wasm.gz",
+      "candid": "icrc/icrc1_ledger.did"
     },
     "internet_identity": {
       "type": "custom",
