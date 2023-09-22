@@ -1,6 +1,33 @@
-# GardenVille
 
-## Getting started 
+![Alt text](src/assets/garden.jpg)
+# GardenVille  🌐  🌿 <img src=src/assets/icp-logo.png style="width:50px; vertical-align: middle;">
+
+plant - grow - share
+
+### Cultivate Your Green Dreams on the Internet Computer!
+
+Greetings, Green Thumbs and Digital Plant Enthusiasts! 🌿 Step into the future of gardening with GardenVille, the groundbreaking app sprouting on the Internet Computer. Seamlessly blending nature’s wonders with cutting-edge decentralization, GardenVille empowers gardeners worldwide to cultivate, connect, and celebrate their verdant passions like never before.
+
+### From Soil to Screen: Your Gardening Oasis Goes Decentralized!
+
+With GardenVille, your gardening journey transcends physical boundaries. Join a thriving community of fellow horticulturalists on the Internet Computer, where you'll plan, nurture, and flaunt your botanical marvels. Showcase your prize-winning produce and revel in the verdant triumphs of others, all within this flourishing digital ecosystem.
+
+### Marketplace of Green Innovation: Where Ideas Bloom into Reality!
+
+GardenVille isn't just a garden—it's a marketplace of innovation. Whether you're after rare seeds, eco-friendly tools, or ingenious cultivation tips, our decentralized platform connects you with like-minded green pioneers. It's where ideas sprout, and where gardeners, as true stewards of the Earth, come together to shape the future of cultivation.
+
+Join us in this digital Eden where your green dreams thrive in a decentralized, gardener-owned ecosystem. Let's plant the seeds for a green tomorrow, today! 🌷🚀
+
+Stay tuned for updates, and get ready to embark on a new era of gardening with GardenVille on the Internet Computer!
+
+#GardenVilleLaunch #GreenThumbRevolution #DecentralizedGardening
+
+
+
+## GardenVille App
+### Developers 
+
+Getting started 
 
 Make sure that [Node.js](https://nodejs.org/en/) `>= 16.x` and [`dfx`](https://internetcomputer.org/docs/current/developer-docs/build/install-upgrade-remove) `>= 0.14.x` are installed on your system.
 
@@ -34,3 +61,4 @@ npm start # Start the development server
 - Customize your project's code style by editing the `.prettierrc` file and then running `npm run format`.
 - Reduce the latency of update calls by passing the `--emulator` flag to `dfx start`.
 - Split your frontend and backend console output by running `npm run frontend` and `npm run backend` in separate terminals.
+
