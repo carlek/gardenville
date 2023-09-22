@@ -1,5 +1,11 @@
 
-![Alt text](src/assets/garden.jpg)
+<div style="position: relative; display: inline-block;">
+  <img src="src/assets/garden.jpg" alt="Garden">
+  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-25deg); text-align: center;">
+    <h4 style="color: rgba(0,255,0,1.0); font-size: 36px; background: rgba(0,0,0,0);">Under Construction</h4>
+  </div>
+</div>
+
 # GardenVille  🌐  🌿 <img src=src/assets/icp-logo.png style="width:50px; vertical-align: middle;">
 
 plant - grow - share
