@@ -23,6 +23,13 @@ Stay tuned for updates, and get ready to embark on a new era of gardening with G
 
 #GardenVilleLaunch #GreenThumbRevolution #DecentralizedGardening
 
+## 🚧 GardenVille Is Under Construction 🚧
+
+TODO:
+- token distribution
+- contest voting
+- ongoing: UI for crud operations
+
 
 
 ## GardenVille App
