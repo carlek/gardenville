@@ -1,6 +1,8 @@
 export {
     getIcrcName,
-    getIcrcSymbol
+    getIcrcSymbol,
+    getBalance,
+    mintTokens
 } from "./icrc1_utils";
 
 export {

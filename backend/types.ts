@@ -84,7 +84,7 @@ export type TransferArgs = Record<{
     to: Account;
 }>;
 
-export type TransferError = Variant<{
+export type TransferError = Record<{
     BadBurn: Record<{ min_burn_amount: nat }>;
     BadFee: Record<{ expected_fee: nat }>;
     CreatedInFuture: Record<{ ledger_time: nat64 }>;

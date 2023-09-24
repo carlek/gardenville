@@ -20,7 +20,7 @@ echo "default:    $DEFAULT_PRINCIPAL"
 echo "wethenorth: $WETHENORTH_PRINCIPAL"
 echo "minter:     $MINTER_PRINCIPAL"
 
-dfx deploy --network ${NETWORK} icrc_ledger --argument '(variant { Init = 
+dfx deploy --network ${NETWORK} icrc_ledger --specified-id ryjl3-tyaaa-aaaaa-aaaba-cai --argument '(variant { Init = 
         record {
             token_name = "'${TOKEN_NAME}'";
             token_symbol = "'${TOKEN_SYMBOL}'";
@@ -37,6 +37,13 @@ dfx deploy --network ${NETWORK} icrc_ledger --argument '(variant { Init =
                 record {
                     record {
                         owner = principal "'${WETHENORTH_PRINCIPAL}'";
+                        subaccount = null;
+                    };
+                    10_000_000
+                };                
+                record {
+                    record {
+                        owner = principal "'${MINTER_PRINCIPAL}'";
                         subaccount = null;
                     };
                     10_000_000

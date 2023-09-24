@@ -1,3 +1,4 @@
+type Account = record { owner : principal; subaccount : opt vec nat8 };
 type Gardener = record {
   contestEntry : vec Plant;
   info : GardenerInfo;
@@ -5,17 +6,41 @@ type Gardener = record {
   productsAvailable : vec ProductsAvailable;
 };
 type GardenerInfo = record { id : text; contact : text; name : text };
+type ManualReply = variant { Ok : int; Err : text };
+type ManualReply_1 = variant { Ok : TransferResult; Err : text };
 type Plant = record { plantName : text };
 type PlantGrowing = record { plantName : text; quantity : nat16 };
 type ProductsAvailable = record { productName : text; quantity : nat16 };
+type TransferError = record {
+  GenericError : _InlineTransferErrorGenericError;
+  TemporarilyUnavailable : null;
+  BadBurn : _InlineTransferErrorBadBurn;
+  Duplicate : _InlineTransferErrorDuplicate;
+  BadFee : _InlineTransferErrorBadFee;
+  CreatedInFuture : _InlineTransferErrorCreatedInFuture;
+  TooOld : null;
+  InsufficientFunds : _InlineTransferErrorInsufficientFunds;
+};
+type TransferResult = variant { Ok : nat; Err : TransferError };
+type _InlineTransferErrorBadBurn = record { min_burn_amount : nat };
+type _InlineTransferErrorBadFee = record { expected_fee : nat };
+type _InlineTransferErrorCreatedInFuture = record { ledger_time : nat64 };
+type _InlineTransferErrorDuplicate = record { duplicate_of : nat };
+type _InlineTransferErrorGenericError = record {
+  message : text;
+  error_code : nat;
+};
+type _InlineTransferErrorInsufficientFunds = record { balance : nat };
 service : () -> {
   addPlantGrowing : (text, text, nat16) -> ();
   createGardener : (GardenerInfo) -> ();
   deleteGardener : (text) -> ();
   deletePlantGrowing : (text, text) -> ();
+  getBalance : (principal, Account) -> (ManualReply) query;
   getGardener : (text) -> (opt Gardener) query;
   getGardeners : () -> (vec Gardener) query;
   getIcrcName : (principal) -> (text) query;
   getIcrcSymbol : (principal) -> (text) query;
+  mintTokens : (principal, Account, nat) -> (ManualReply_1);
   principalCaller : () -> (principal) query;
 }

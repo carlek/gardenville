@@ -1,4 +1,4 @@
-import { ic, Service, serviceQuery, serviceUpdate, CallResult, Principal, Opt, blob, $query, match } from "azle";
+import { ic, Service, serviceQuery, serviceUpdate, CallResult, Result, Principal, nat64, $query, $update, match } from "azle";
 import { Account, Tokens, TransferResult, TransferArgs } from "./types";
 
 // ICRC Ledger utils 
@@ -18,29 +18,38 @@ class ICRC extends Service {
 
 
 $query;
-export async function getIcrcName(
-    icrcId: Principal): Promise<string> {
+export async function getIcrcName(icrcId: Principal): Promise<string> {
     const icrc = new ICRC(icrcId);
     const result = await icrc.icrc1_name().call();
     return match(result, {
         Ok: (ok) => ok,
-        Err: (err) => JSON.stringify(err)
+        Err: (err) => err
     });
 }
 
 $query;
-export async function getIcrcSymbol(
-    icrcId: Principal): Promise<string> {
+export async function getIcrcSymbol(icrcId: Principal): Promise<string> {
     const icrc = new ICRC(icrcId);
     const result = await icrc.icrc1_symbol().call();
     return match(result, {
         Ok: (ok) => ok,
-        Err: (err) => JSON.stringify(err)
+        Err: (err) => err
     });
 }
 
-export async function mintTokens(icrcId: Principal, toAccount: Account, amount: Tokens): Promise<string> {
+$query;
+export async function getBalance(icrcId: Principal, account: Account): Promise<Result<bigint, string>>{
+    const icrc = new ICRC(icrcId);
+    const result = await icrc.icrc1_balance_of(account).call();
+    return match(result, {
+        Ok: (ok) => ({ Ok: ok }),
+        Err: (err) => ({ Err: err })
+    });
+}
 
+$update;
+export async function mintTokens(icrcId: Principal, toAccount: Account, amount: Tokens):
+    Promise<Result<TransferResult, string>> {
     let args: TransferArgs = {
         amount: amount,
         created_at_time: ic.time(),
@@ -49,25 +58,15 @@ export async function mintTokens(icrcId: Principal, toAccount: Account, amount: 
         memo: null,
         to: toAccount
     };
-
     const icrc = new ICRC(icrcId);
     const result = await icrc.icrc1_transfer(args).call();
     return match(result, {
-        Ok: (ok) => JSON.stringify(ok),
-        Err: (err) => JSON.stringify(err)
+        Ok: (ok) => ({ Ok: ok }),
+        Err: (err) => ({ Err: err })
     });
 }
 
 
-export async function getBalance(icrcId: Principal, account: Account): Promise<string> 
-{
-    const icrc = new ICRC(icrcId);
-    const result = await icrc.icrc1_balance_of(account).call();
-    return match(result, {
-        Ok: (ok) => JSON.stringify(ok),
-        Err: (err) => JSON.stringify(err)
-    });
-}
 
 // // other ICRC-2 methods
 // $update;
