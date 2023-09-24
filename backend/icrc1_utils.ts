@@ -1,15 +1,21 @@
-import { Service, serviceQuery, CallResult, Principal, $query, match } from "azle";
+import { ic, Service, serviceQuery, serviceUpdate, CallResult, Principal, $query, match, blob } from "azle";
+import { Account, Tokens, TransferArgs, TransferResult, TransferError, BlockIndex } from "./types";
 
-///////////////////////////
-// ICRC Ledger utils     //
-// ///////////////////////////
+// ICRC Ledger utils 
 
 class ICRC extends Service {
     @serviceQuery
     icrc1_name: () => CallResult<string>;
     @serviceQuery
     icrc1_symbol: () => CallResult<string>;
+    @serviceQuery
+    icrc1_minting_account: () => CallResult<Account>;
+    @serviceQuery
+    icrc1_balance_of: (Account: Account) => CallResult<Tokens>;
+    @serviceUpdate
+    icrc1_transfer: (TransferArg: TransferArgs) => CallResult<TransferResult>;
 }
+
 
 $query;
 export async function getIcrcName(
@@ -29,6 +35,36 @@ export async function getIcrcSymbol(
     const result = await icrc.icrc1_symbol().call();
     return match(result, {
         Ok: (ok) => ok,
+        Err: (err) => JSON.stringify(err)
+    });
+}
+
+export async function mintTokens(icrcId: Principal, toAccount: Account, amount: Tokens): Promise<string> {
+
+    let args: TransferArgs = {
+        amount: amount,
+        created_at_time: ic.time(),
+        fee: null,
+        from_subaccount: null,
+        memo: null,
+        to: toAccount
+    };
+
+    const icrc = new ICRC(icrcId);
+    const result = await icrc.icrc1_transfer(args).call();
+    return match(result, {
+        Ok: (ok) => JSON.stringify(ok),
+        Err: (err) => JSON.stringify(err)
+    });
+}
+
+
+export async function getBalance(icrcId: Principal, account: Account): Promise<string> 
+{
+    const icrc = new ICRC(icrcId);
+    const result = await icrc.icrc1_balance_of(account).call();
+    return match(result, {
+        Ok: (ok) => JSON.stringify(ok),
         Err: (err) => JSON.stringify(err)
     });
 }
