@@ -1,13 +1,13 @@
 
-import { blob, int, nat, nat8, nat64, Opt, Principal, Variant } from 'azle';
+import { blob, int, nat, nat8, nat64, Opt, Principal, Variant, Record } from 'azle';
 
 export type Tokens = nat;
 export type BlockIndex = nat;
 
-export type Account = {
+export type Account = Record<{
     owner: Principal;
     subaccount: Opt<Subaccount>;
-};
+}>;
 
 export type InitArgs = {
     decimals: nat8;
@@ -75,22 +75,22 @@ export type TransactionKind = Variant<{
     Transfer: null;
 }>;
 
-export type TransferArgs = {
+export type TransferArgs = Record<{
     amount: nat;
     created_at_time: nat64;
     fee: Opt<nat>;
     from_subaccount: Opt<Subaccount>;
     memo: Opt<blob>;
     to: Account;
-};
+}>;
 
 export type TransferError = Variant<{
-    BadBurn: { min_burn_amount: nat };
-    BadFee: { expected_fee: nat };
-    CreatedInFuture: { ledger_time: nat64 };
-    Duplicate: { duplicate_of: nat };
-    GenericError: { error_code: nat; message: string };
-    InsufficientFunds: { balance: nat };
+    BadBurn: Record<{ min_burn_amount: nat }>;
+    BadFee: Record<{ expected_fee: nat }>;
+    CreatedInFuture: Record<{ ledger_time: nat64 }>;
+    Duplicate: Record<{ duplicate_of: nat }>;
+    GenericError: Record<{ error_code: nat; message: string }>;
+    InsufficientFunds: Record<{ balance: nat }>;
     TemporarilyUnavailable: null;
     TooOld: null;
 }>;

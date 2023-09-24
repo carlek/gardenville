@@ -38,10 +38,8 @@ type Gardener = Record<{
 // DB Methods            //
 ///////////////////////////
 
-type Key = string;
-type Value = Gardener;
 
-let gdb = new StableBTreeMap<Key, Value>(0, 100, 10_000);
+let gdb = new StableBTreeMap<string, Gardener>(0, 100, 10_000);
 
 $update;
 export function createGardener(info: GardenerInfo): void {

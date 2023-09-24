@@ -1,5 +1,5 @@
-import { ic, Service, serviceQuery, serviceUpdate, CallResult, Principal, $query, match, blob } from "azle";
-import { Account, Tokens, TransferArgs, TransferResult, TransferError, BlockIndex } from "./types";
+import { ic, Service, serviceQuery, serviceUpdate, CallResult, Principal, Opt, blob, $query, match } from "azle";
+import { Account, Tokens, TransferResult, TransferArgs } from "./types";
 
 // ICRC Ledger utils 
 
@@ -11,9 +11,9 @@ class ICRC extends Service {
     @serviceQuery
     icrc1_minting_account: () => CallResult<Account>;
     @serviceQuery
-    icrc1_balance_of: (Account: Account) => CallResult<Tokens>;
+    icrc1_balance_of: (account: Account) => CallResult<Tokens>;
     @serviceUpdate
-    icrc1_transfer: (TransferArg: TransferArgs) => CallResult<TransferResult>;
+    icrc1_transfer: (args: TransferArgs) => CallResult<TransferResult>;
 }
 
 
