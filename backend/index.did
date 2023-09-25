@@ -11,14 +11,14 @@ type ManualReply_1 = variant { Ok : TransferResult; Err : text };
 type Plant = record { plantName : text };
 type PlantGrowing = record { plantName : text; quantity : nat16 };
 type ProductsAvailable = record { productName : text; quantity : nat16 };
-type TransferError = record {
+type TransferError = variant {
   GenericError : _InlineTransferErrorGenericError;
-  TemporarilyUnavailable : null;
+  TemporarilyUnavailable;
   BadBurn : _InlineTransferErrorBadBurn;
   Duplicate : _InlineTransferErrorDuplicate;
   BadFee : _InlineTransferErrorBadFee;
   CreatedInFuture : _InlineTransferErrorCreatedInFuture;
-  TooOld : null;
+  TooOld;
   InsufficientFunds : _InlineTransferErrorInsufficientFunds;
 };
 type TransferResult = variant { Ok : nat; Err : TransferError };

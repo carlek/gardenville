@@ -53,17 +53,14 @@ export async function mintTokens(icrcId: Principal, toAccount: Account, amount: 
     let args: TransferArg = {
         amount: amount,
         to: toAccount,
-        from_subaccount: undefined,
-        fee: undefined,
-        memo: undefined,
-        created_at_time: ic.time()
+        from_subaccount: Opt.None,
+        fee: Opt.None,
+        memo: Opt.None,
+        created_at_time: Opt.Some(ic.time())
     };
 
     const icrc = new ICRC(icrcId);
-    ic.print("*** 1 ***");
-    ic.print(typeof args);
     const result = await icrc.icrc1_transfer(args).call();
-    ic.print("*** 2 ***");
     return match(result, {
         Ok: (ok) => ({ Ok: ok }),
         Err: (err) => ({ Err: err })

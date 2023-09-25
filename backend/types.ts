@@ -68,7 +68,7 @@ export type TransferArg = Record<{
     amount: Tokens;
     fee: Opt<Tokens>;
     memo: Opt<blob>;
-    created_at_time?: Timestamp;
+    created_at_time: Opt<Timestamp>;
 }>;
 
 export type Transaction = {
@@ -85,7 +85,7 @@ export type TransactionKind = Variant<{
     Transfer: null;
 }>;
 
-export type TransferError = Record<{
+export type TransferError = Variant<{
     BadBurn: Record<{ min_burn_amount: nat }>;
     BadFee: Record<{ expected_fee: nat }>;
     CreatedInFuture: Record<{ ledger_time: nat64 }>;
