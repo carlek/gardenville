@@ -3,6 +3,7 @@ import { blob, int, nat, nat8, nat64, Opt, Principal, Variant, Record } from 'az
 
 export type Tokens = nat;
 export type BlockIndex = nat;
+type Timestamp = nat64;
 
 export type Account = Record<{
     owner: Principal;
@@ -61,8 +62,17 @@ export type SupportedStandard = {
     url: string;
 };
 
+export type TransferArg = Record<{
+    from_subaccount: Opt<Subaccount>;
+    to: Account;
+    amount: Tokens;
+    fee: Opt<Tokens>;
+    memo: Opt<blob>;
+    created_at_time?: Timestamp;
+}>;
+
 export type Transaction = {
-    args: Opt<TransferArgs>;
+    args: Opt<TransferArg>;
     fee: nat;
     from: Opt<Account>;
     kind: TransactionKind;
@@ -73,15 +83,6 @@ export type TransactionKind = Variant<{
     Burn: null;
     Mint: null;
     Transfer: null;
-}>;
-
-export type TransferArgs = Record<{
-    amount: nat;
-    created_at_time: nat64;
-    fee: Opt<nat>;
-    from_subaccount: Opt<Subaccount>;
-    memo: Opt<blob>;
-    to: Account;
 }>;
 
 export type TransferError = Record<{

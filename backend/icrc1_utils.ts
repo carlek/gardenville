@@ -1,5 +1,5 @@
-import { ic, Service, serviceQuery, serviceUpdate, CallResult, Result, Principal, nat64, $query, $update, match } from "azle";
-import { Account, Tokens, TransferResult, TransferArgs } from "./types";
+import { ic, Service, serviceQuery, serviceUpdate, CallResult, Result, Principal, Opt, $query, $update, match } from "azle";
+import { Account, Tokens, TransferResult, TransferArg } from "./types";
 
 // ICRC Ledger utils 
 
@@ -13,7 +13,7 @@ class ICRC extends Service {
     @serviceQuery
     icrc1_balance_of: (account: Account) => CallResult<Tokens>;
     @serviceUpdate
-    icrc1_transfer: (args: TransferArgs) => CallResult<TransferResult>;
+    icrc1_transfer: (args: TransferArg) => CallResult<TransferResult>;
 }
 
 
@@ -50,16 +50,20 @@ export async function getBalance(icrcId: Principal, account: Account): Promise<R
 $update;
 export async function mintTokens(icrcId: Principal, toAccount: Account, amount: Tokens):
     Promise<Result<TransferResult, string>> {
-    let args: TransferArgs = {
+    let args: TransferArg = {
         amount: amount,
-        created_at_time: ic.time(),
-        fee: null,
-        from_subaccount: null,
-        memo: null,
-        to: toAccount
+        to: toAccount,
+        from_subaccount: undefined,
+        fee: undefined,
+        memo: undefined,
+        created_at_time: ic.time()
     };
+
     const icrc = new ICRC(icrcId);
+    ic.print("*** 1 ***");
+    ic.print(typeof args);
     const result = await icrc.icrc1_transfer(args).call();
+    ic.print("*** 2 ***");
     return match(result, {
         Ok: (ok) => ({ Ok: ok }),
         Err: (err) => ({ Err: err })
