@@ -32,6 +32,8 @@ TODO:
 1. ongoing: UI for crud operations
 
 - future
+1. better UI (yeah I'm awful at that!)
+1. tests
 1. photo upload
 1. garden map: personal & community
 1. plant API integration
