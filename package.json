@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "setup": "npm i && dfx canister create backend && dfx generate backend && sh icrc/icrc1-deploy.sh && dfx deploy",
+    "setup": "npm i && dfx canister create backend && dfx canister create frontend && dfx generate backend && dfx generate frontend && sh icrc/icrc1-deploy.sh && dfx deploy",
     "start": "run-p frontend",
     "frontend": "vite --port 3000",
     "backend": "dfx deploy backend",

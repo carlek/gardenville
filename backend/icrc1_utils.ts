@@ -69,6 +69,7 @@ export async function mintTokens(icrcId: Principal, toAccount: Account, amount: 
 
 
 
+
 // // other ICRC-2 methods
 // $update;
 // export function icrc2_mint(mint: Mint): MintResult {
