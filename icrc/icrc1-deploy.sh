@@ -9,11 +9,11 @@ export MINTER_PRINCIPAL=$(dfx identity get-principal)
 export DFX_IDENTITY=archiver
 export ARCHIVE_CONTROLLER=$(dfx identity get-principal)
 
-# user principals
-export DFX_IDENTITY=default
-export DEFAULT_PRINCIPAL=$(dfx identity get-principal)
+# user principals 
 export DFX_IDENTITY=wethenorth
 export WETHENORTH_PRINCIPAL=$(dfx identity get-principal)
+export DFX_IDENTITY=default
+export DEFAULT_PRINCIPAL=$(dfx identity get-principal)
 
 export TOKEN_NAME="GardenVilleToken"
 export TOKEN_SYMBOL=XGVT

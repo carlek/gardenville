@@ -19,8 +19,8 @@ class ICRC extends Service {
 
 
 $query;
-export async function getIcrcName(icrcId: Principal): Promise<string> {
-    const icrc = new ICRC(icrcId);
+export async function getIcrcName(): Promise<string> {
+    const icrc = new ICRC(getIcrcPrincipal());
     const result = await icrc.icrc1_name().call();
     return match(result, {
         Ok: (ok) => ok,
@@ -29,8 +29,8 @@ export async function getIcrcName(icrcId: Principal): Promise<string> {
 }
 
 $query;
-export async function getIcrcSymbol(icrcId: Principal): Promise<string> {
-    const icrc = new ICRC(icrcId);
+export async function getIcrcSymbol(): Promise<string> {
+    const icrc = new ICRC(getIcrcPrincipal());
     const result = await icrc.icrc1_symbol().call();
     return match(result, {
         Ok: (ok) => ok,
@@ -39,8 +39,8 @@ export async function getIcrcSymbol(icrcId: Principal): Promise<string> {
 }
 
 $query;
-export async function getBalance(icrcId: Principal, account: Account): Promise<Result<bigint, string>>{
-    const icrc = new ICRC(icrcId);
+export async function getBalance(account: Account): Promise<Result<bigint, string>>{
+    const icrc = new ICRC(getIcrcPrincipal());
     const result = await icrc.icrc1_balance_of(account).call();
     return match(result, {
         Ok: (ok) => ({ Ok: ok }),

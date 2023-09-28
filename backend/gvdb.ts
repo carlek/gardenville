@@ -1,5 +1,5 @@
 import {
-    $query, $update, Opt, nat16, StableBTreeMap, Record, match, Vec
+    $query, $update, Opt, nat16, StableBTreeMap, Record, match, Vec, Principal
 } from 'azle';
 
 ///////////////////////////
@@ -21,7 +21,7 @@ type ProductsAvailable = Record<{
 }>;
 
 type GardenerInfo = Record<{
-    id: string;
+    id: Principal;
     name: string;
     contact: string;
 }>;
@@ -39,7 +39,7 @@ type Gardener = Record<{
 ///////////////////////////
 
 
-let gdb = new StableBTreeMap<string, Gardener>(0, 100, 10_000);
+let gdb = new StableBTreeMap<Principal, Gardener>(0, 100, 10_000);
 
 $update;
 export function createGardener(info: GardenerInfo): void {
@@ -58,7 +58,7 @@ export function createGardener(info: GardenerInfo): void {
 }
 
 $update;
-export function deleteGardener(id: string): void {
+export function deleteGardener(id: Principal): void {
     console.log(`in deleteGardener(${id})`);
     if (!gdb.containsKey(id)) {
         console.log(`Gardener with ID ${id} does not exist.`);
@@ -69,7 +69,7 @@ export function deleteGardener(id: string): void {
 }
 
 $query;
-export function getGardener(id: string): Opt<Gardener> {
+export function getGardener(id: Principal): Opt<Gardener> {
     console.log(`in getGardener(${id})`);
     const gardener = gdb.get(id);
     return gardener;
@@ -81,7 +81,7 @@ export function getGardeners(): Vec<Gardener> {
 }
 
 $update;
-export function addPlantGrowing(id: string, plantName: string, quantity: nat16): void {
+export function addPlantGrowing(id: Principal, plantName: string, quantity: nat16): void {
     const gardenerOpt = gdb.get(id);
 
     match(gardenerOpt, {
@@ -102,7 +102,7 @@ export function addPlantGrowing(id: string, plantName: string, quantity: nat16):
 }
 
 $update;
-export function deletePlantGrowing(id: string, plantName: string): void {
+export function deletePlantGrowing(id: Principal, plantName: string): void {
     const gardenerOpt = gdb.get(id);
 
     match(gardenerOpt, {

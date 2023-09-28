@@ -1,16 +1,17 @@
 <script lang="ts">
     // import { AuthClient } from './auth';
     import { AuthClient } from "@dfinity/auth-client";
+    import { Principal } from "@dfinity/principal";
     import gardenImage from "../assets/garden.jpg";
     import "../styles/styles.css";
     export let isAuthenticated: boolean = false;
-    export let principal: string | null;
+    export let principal: Principal | null;
 
     const handleLoginSuccess = (authClient: AuthClient) => {
         isAuthenticated = true;
-        principal = authClient.getIdentity().getPrincipal().toString();
+        principal = authClient.getIdentity().getPrincipal();
         localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem("principal", principal);
+        localStorage.setItem("principal", principal.toString());
     };
 
     const handleLoginFail = (error?: string) => {

@@ -2,11 +2,12 @@
     import "../styles/styles.css";
     import { backend } from "../declarations/backend/index.js";
     import { getInitialMint } from "../../backend/config";
-    // import { Principal } from "@dfinity/principal";
+    // import { Principal } from "azle";
+    import { Principal } from "@dfinity/principal";
 
     export let toggleSignup: () => void;
     export let isAuthenticated: boolean;
-    export let principal: string | null;
+    export let principal: Principal | null;
 
     let name = "";
     let contact = "";

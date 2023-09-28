@@ -4,9 +4,10 @@
     import Login from "./components/Login.svelte";
     import Home from "./components/Home.svelte";
     import Signup from "./components/Signup.svelte";
+    import { Principal } from "azle";
 
     let isAuthenticated: boolean = false;
-    let principal: string | null = null;
+    let principal: Principal | null = null;
 
     onMount(() => {
         const storedIsAuthenticated = localStorage.getItem("isAuthenticated");
@@ -14,9 +15,10 @@
 
         if (storedIsAuthenticated === "true" && storedPrincipal) {
             isAuthenticated = true;
-            principal = storedPrincipal;
+            principal = Principal.fromText(storedPrincipal);
         }
     });
+    
 
     const handleLogout = () => {
         isAuthenticated = false;

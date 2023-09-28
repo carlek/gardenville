@@ -1,12 +1,13 @@
 <script lang="ts">
     export let isAuthenticated: boolean;
-    export let principal: string | null;
+    export let principal: Principal | null;
     export let handleLogout: () => void;
     export let toggleSignup: () => void;
 
     import { onMount } from "svelte";
     import { backend } from "../declarations/backend/index.js";
     import "../styles/styles.css";
+    import { Principal } from "azle";
 
     let gardenerName: string | null = null;
     let isInitialized = false;
