@@ -1,5 +1,5 @@
 import { Principal } from "azle";
-import { Tokens } from "./types";
+import { Tokens } from "../icrc/types";
 
 export interface Config {
     icrcPrincipal: Principal;

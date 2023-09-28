@@ -1,4 +1,5 @@
 <script lang="ts">
+    import "../styles/styles.css";
     export let isAuthenticated: boolean;
     export let principal: Principal | null;
     export let handleLogout: () => void;
@@ -6,17 +7,25 @@
 
     import { onMount } from "svelte";
     import { backend } from "../declarations/backend/index.js";
-    import "../styles/styles.css";
     import { Principal } from "azle";
 
     let gardenerName: string | null = null;
     let isInitialized = false;
+    let gardener;
+    let amount: bigint;
+    let account = {owner: principal, subaccount: []};
 
+    const fetchBalance = async () => {
+        const result = await backend.getBalance(account);
+        amount = ('Ok' in result) ? result.Ok : null;
+    };
+    
     onMount(async () => {
         if (isAuthenticated && principal) {
             const result = await backend.getGardener(principal);
-            const gardener = result[0];
+            gardener = result[0];
             gardenerName = gardener ? gardener.info.name : null;
+            fetchBalance(); 
             isInitialized = true;
         }
     });
@@ -36,7 +45,14 @@
 >
     {#if isAuthenticated && isInitialized}
         {#if gardenerName !== null}
-            <h1>Welcome {gardenerName} to GardenVille!</h1>
+            <h1>Welcome back to GardenVille!</h1>
+            <div class="info-container">
+                <div class="info-item">Name: {gardener.info.name}</div>
+                <div class="info-item">Contact: {gardener.info.contact}</div>
+                {#if amount !== null} <div class="info-item">Current Balance: {amount}</div>
+                {:else}               <div class="info-item">Loading balance...</div>
+                {/if}
+            </div>
         {:else}
             <h1>Welcome to GardenVille!</h1>
             <h2>Sign up to start your Gardening Journey</h2>

@@ -1,5 +1,5 @@
 import { ic, Service, serviceQuery, serviceUpdate, CallResult, Result, Principal, Opt, $query, $update, match } from "azle";
-import { Account, Tokens, TransferResult, TransferArg } from "./types";
+import { Account, Tokens, TransferResult, TransferArg } from "../icrc/types";
 import { getIcrcPrincipal } from "./config";
 
 // ICRC Ledger utils 

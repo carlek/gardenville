@@ -26,18 +26,16 @@ type GardenerInfo = Record<{
     contact: string;
 }>;
 
-type Gardener = Record<{
+export type Gardener = Record<{
     info: GardenerInfo;
     plantsGrowing: Vec<PlantGrowing>;
     productsAvailable: Vec<ProductsAvailable>;
     contestEntry: Vec<Plant>;
 }>;
 
-
 ///////////////////////////
-// DB Methods            //
+// DB and Methods        //
 ///////////////////////////
-
 
 let gdb = new StableBTreeMap<Principal, Gardener>(0, 100, 10_000);
 

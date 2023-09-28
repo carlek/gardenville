@@ -90,6 +90,23 @@
     &:hover {background-color: #e62828;}
 }
 
+.info-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px;
+    position: absolute;
+    top: calc(1rem + 60px); /* Adjust to position below icp-logo */
+    left: 5%;
+    font-weight: bold;
+    text-align: left; /* Align text to the left */
+}
+
+.info-item {
+    /* font-family: 'YourCoolFont', sans-serif;  */
+    margin-bottom: 10px;
+}
+
 .icp-logo {
     width: 60px;
     position: absolute;
