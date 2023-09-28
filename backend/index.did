@@ -41,6 +41,6 @@ service : () -> {
   getGardeners : () -> (vec Gardener) query;
   getIcrcName : (principal) -> (text) query;
   getIcrcSymbol : (principal) -> (text) query;
-  mintTokens : (principal, Account, nat) -> (ManualReply_1);
+  mintTokens : (Account, nat) -> (ManualReply_1);
   principalCaller : () -> (principal) query;
 }

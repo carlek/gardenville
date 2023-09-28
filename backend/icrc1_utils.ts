@@ -1,5 +1,6 @@
 import { ic, Service, serviceQuery, serviceUpdate, CallResult, Result, Principal, Opt, $query, $update, match } from "azle";
 import { Account, Tokens, TransferResult, TransferArg } from "./types";
+import { getIcrcPrincipal } from "./config";
 
 // ICRC Ledger utils 
 
@@ -48,7 +49,7 @@ export async function getBalance(icrcId: Principal, account: Account): Promise<R
 }
 
 $update;
-export async function mintTokens(icrcId: Principal, toAccount: Account, amount: Tokens):
+export async function mintTokens(toAccount: Account, amount: Tokens):
     Promise<Result<TransferResult, string>> {
     let args: TransferArg = {
         amount: amount,
@@ -59,7 +60,7 @@ export async function mintTokens(icrcId: Principal, toAccount: Account, amount: 
         created_at_time: Opt.Some(ic.time())
     };
 
-    const icrc = new ICRC(icrcId);
+    const icrc = new ICRC(getIcrcPrincipal());
     const result = await icrc.icrc1_transfer(args).call();
     return match(result, {
         Ok: (ok) => ({ Ok: ok }),

@@ -6,6 +6,10 @@ export {
 } from "./icrc1_utils";
 
 export {
+    getIcrcPrincipal
+} from "./config";
+
+export {
     createGardener,
     getGardener,
     getGardeners,
