@@ -13,10 +13,9 @@
     let isInitialized = false;
     let gardener;
     let amount: bigint;
-    let account = {owner: principal, subaccount: []};
 
     const fetchBalance = async () => {
-        const result = await backend.getBalance(account);
+        const result = await backend.getBalance({owner: principal, subaccount: []});
         amount = ('Ok' in result) ? result.Ok : null;
     };
     
