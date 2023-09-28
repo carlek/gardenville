@@ -13,9 +13,11 @@
     let isInitialized = false;
     let gardener;
     let amount: bigint;
+    let symbol: string;
 
     const fetchBalance = async () => {
         const result = await backend.getBalance({owner: principal, subaccount: []});
+        symbol = await backend.getIcrcSymbol();
         amount = ('Ok' in result) ? result.Ok : null;
     };
     
@@ -48,7 +50,7 @@
             <div class="info-container">
                 <div class="info-item">Name: {gardener.info.name}</div>
                 <div class="info-item">Contact: {gardener.info.contact}</div>
-                {#if amount !== null} <div class="info-item">Current Balance: {amount}</div>
+                {#if amount !== null} <div class="info-item">Current Balance: {amount} {symbol}</div>
                 {:else}               <div class="info-item">Loading balance...</div>
                 {/if}
             </div>
