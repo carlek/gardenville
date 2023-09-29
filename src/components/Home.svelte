@@ -19,6 +19,7 @@
         const result = await backend.getBalance({owner: principal, subaccount: []});
         symbol = await backend.getIcrcSymbol();
         amount = ('Ok' in result) ? result.Ok : null;
+        console.log(result);
     };
     
     onMount(async () => {

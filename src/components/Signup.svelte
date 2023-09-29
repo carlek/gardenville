@@ -2,8 +2,7 @@
     import "../styles/styles.css";
     import { backend } from "../declarations/backend/index.js";
     import { getInitialMint } from "../../backend/config";
-    // import { Principal } from "azle";
-    import { Principal } from "@dfinity/principal";
+    import { Principal } from "azle";
 
     export let toggleSignup: () => void;
     export let isAuthenticated: boolean;
@@ -19,16 +18,14 @@
         if (principal) {
             const gardenerInfo = {id: principal, name: name, contact: contact};
             await backend.createGardener(gardenerInfo);
-            // const toAccount = {owner: Principal.fromText(principal), 
-            //                  subaccount: undefined};
+            const toAccount = {owner: principal, subaccount: []};
             const amount = getInitialMint();
-            console.log(`initialMint=${amount}`);
-            // const result = await backend.mintTokens(toAccount, amount);
-            // if ("Ok" in result) {
-            //     console.log(`Successfully minted ${amount} tokens for ${gardenerInfo.name}`);
-            // } else {
-            //     console.error(`Error minting tokens: ${result.Err}`);
-            // }
+            const result = await backend.mintTokens(toAccount, amount);
+            if ("Ok" in result) {
+                console.log(`Successfully minted ${amount} tokens for ${gardenerInfo.name}`);
+            } else {
+                console.error(`Error minting tokens: ${result.Err}`);
+            }
             toggleSignup();
         } else {
             console.error("No authenticated user available.");

@@ -1,7 +1,7 @@
 <script lang="ts">
     // import { AuthClient } from './auth';
     import { AuthClient } from "@dfinity/auth-client";
-    import { Principal } from "@dfinity/principal";
+    import { Principal } from "azle";
     import gardenImage from "../assets/garden.jpg";
     import "../styles/styles.css";
     export let isAuthenticated: boolean = false;
