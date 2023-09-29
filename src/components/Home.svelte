@@ -51,8 +51,10 @@
             <div class="info-container">
                 <div class="info-item">Name: {gardener.info.name}</div>
                 <div class="info-item">Contact: {gardener.info.contact}</div>
-                {#if amount !== null} <div class="info-item">Current Balance: {amount} {symbol}</div>
-                {:else}               <div class="info-item">Loading balance...</div>
+                {#if amount !== undefined}
+                    <div class="info-item">Current Balance: {amount} {symbol}</div>
+                {:else}
+                    <div class="info-item">Loading balance...</div>
                 {/if}
             </div>
         {:else}

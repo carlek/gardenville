@@ -14,6 +14,7 @@ export DFX_IDENTITY=wethenorth
 export WETHENORTH_PRINCIPAL=$(dfx identity get-principal)
 export DFX_IDENTITY=default
 export DEFAULT_PRINCIPAL=$(dfx identity get-principal)
+export BANK_PRINCIPAL=2vxsx-fae
 
 export TOKEN_NAME="GardenVilleToken"
 export TOKEN_SYMBOL=XGVT
@@ -22,9 +23,16 @@ dfx deploy --network ${NETWORK} icrc_ledger --specified-id ryjl3-tyaaa-aaaaa-aaa
         record {
             token_name = "'${TOKEN_NAME}'";
             token_symbol = "'${TOKEN_SYMBOL}'";
-            minting_account = record { owner = principal "'${MINTER_PRINCIPAL}'";};
+            minting_account = record { owner = principal "'${BANK_PRINCIPAL}'";};
             max_supply = 3_000_000_000_000;
             initial_balances = vec {
+                record {
+                    record {
+                        owner = principal "'${BANK_PRINCIPAL}'";
+                        subaccount = null;
+                    };
+                    2_000_000_000_000
+                };
                 record {
                     record {
                         owner = principal "'${DEFAULT_PRINCIPAL}'";
