@@ -9,7 +9,7 @@ export interface Config {
 }
 
 let config: Config = {
-    icrcPrincipal: Principal.fromText('bw4dl-smaaa-aaaaa-qaacq-cai'),
+    icrcPrincipal: Principal.fromText("bd3sg-teaaa-aaaaa-qaaba-cai"),
     initialMint: 100n,
     backendPrincipal: Principal.fromText("bkyz2-fmaaa-aaaaa-qaaaq-cai")
 };
