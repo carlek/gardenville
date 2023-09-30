@@ -46,7 +46,7 @@
 >
     {#if isAuthenticated && isInitialized}
         {#if gardenerName !== null}
-            <h1>Welcome back to GardenVille!</h1>
+            <h1>Hello, {gardener.info.name} Welcome to GardenVille!</h1>
             <div class="info-container">
                 <div class="info-item">Name: {gardener.info.name}</div>
                 <div class="info-item">Contact: {gardener.info.contact}</div>
