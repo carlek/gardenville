@@ -1,34 +1,32 @@
 # Change the variable to "ic" to deploy the ledger on the mainnet.
 export NETWORK=local
 
-# principal that can mint and burn tokens.
+# backend and ledger principals
+export backend_principal=$(jq -r '.backend.local' .dfx/local/canister_ids.json)
+export icrc_ledger_principal=$(jq -r '.icrc_ledger.local' .dfx/local/canister_ids.json)
+
+# principals for minting, archiving, and default
 export DFX_IDENTITY=minter
 export MINTER_PRINCIPAL=$(dfx identity get-principal)
-
-# principal that controls archive canisters.
 export DFX_IDENTITY=archiver
 export ARCHIVE_CONTROLLER=$(dfx identity get-principal)
-
-# user principals 
-export DFX_IDENTITY=wethenorth
-export WETHENORTH_PRINCIPAL=$(dfx identity get-principal)
 export DFX_IDENTITY=default
 export DEFAULT_PRINCIPAL=$(dfx identity get-principal)
-export BANK_PRINCIPAL=2vxsx-fae
 
 export TOKEN_NAME="GardenVilleToken"
 export TOKEN_SYMBOL=XGVT
 
-dfx deploy --network ${NETWORK} icrc_ledger --specified-id ryjl3-tyaaa-aaaaa-aaaba-cai --argument '(variant { Init = 
+dfx deploy --network ${NETWORK} icrc_ledger --specified-id ${icrc_ledger_principal} \
+    --argument '(variant { Init = 
         record {
             token_name = "'${TOKEN_NAME}'";
             token_symbol = "'${TOKEN_SYMBOL}'";
-            minting_account = record { owner = principal "'${BANK_PRINCIPAL}'";};
+            minting_account = record { owner = principal "'${MINTER_PRINCIPAL}'";};
             max_supply = 3_000_000_000_000;
             initial_balances = vec {
                 record {
                     record {
-                        owner = principal "'${BANK_PRINCIPAL}'";
+                        owner = principal "'${backend_principal}'";
                         subaccount = null;
                     };
                     2_000_000_000_000
@@ -40,13 +38,6 @@ dfx deploy --network ${NETWORK} icrc_ledger --specified-id ryjl3-tyaaa-aaaaa-aaa
                     };
                     1_000
                 };
-                record {
-                    record {
-                        owner = principal "'${WETHENORTH_PRINCIPAL}'";
-                        subaccount = null;
-                    };
-                    1_000
-                };                
                 record {
                     record {
                         owner = principal "'${MINTER_PRINCIPAL}'";

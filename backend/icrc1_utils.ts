@@ -1,4 +1,4 @@
-import { ic, Service, serviceQuery, serviceUpdate, CallResult, Result, Principal, Opt, $query, $update, match } from "azle";
+import { ic, Service, serviceQuery, serviceUpdate, CallResult, Result, Opt, $query, $update, match } from "azle";
 import { Account, Tokens, TransferResult, TransferArg } from "../icrc/types";
 import { getIcrcPrincipal } from "./config";
 
@@ -62,13 +62,8 @@ export async function mintTokens(toAccount: Account, amount: Tokens):
 
     const icrc = new ICRC(getIcrcPrincipal());
     const result = await icrc.icrc1_transfer(args).call();
-    return match(result, {
-        Ok: (ok) => ({ Ok: ok }),
-        Err: (err) => ({ Err: err })
-    });
+    return result
 }
-
-
 
 
 // // other ICRC-2 methods

@@ -21,6 +21,7 @@
             const toAccount = {owner: principal, subaccount: []};
             const amount = getInitialMint();
             const result = await backend.mintTokens(toAccount, amount);
+            console.log(result)
             if ("Ok" in result) {
                 console.log(`Successfully minted ${amount} tokens for ${gardenerInfo.name}`);
             } else {

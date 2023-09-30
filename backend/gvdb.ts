@@ -68,7 +68,6 @@ export function deleteGardener(id: Principal): void {
 
 $query;
 export function getGardener(id: Principal): Opt<Gardener> {
-    console.log(`in getGardener(${id})`);
     const gardener = gdb.get(id);
     return gardener;
 }
