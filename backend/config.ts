@@ -1,17 +1,18 @@
-import { Principal } from "azle";
+import { Principal, ic } from "azle";
 import { Tokens } from "../icrc/types";
 
 export interface Config {
     icrcPrincipal: Principal;
     initialMint: Tokens;
     backendPrincipal: Principal;
-    // other config values
+    currentUser: Principal | null;
 }
 
 let config: Config = {
     icrcPrincipal: Principal.fromText("bd3sg-teaaa-aaaaa-qaaba-cai"),
     initialMint: 100n,
-    backendPrincipal: Principal.fromText("bkyz2-fmaaa-aaaaa-qaaaq-cai")
+    backendPrincipal: Principal.fromText("bkyz2-fmaaa-aaaaa-qaaaq-cai"),
+    currentUser: null
 };
 
 export function getIcrcPrincipal(): Principal {
@@ -24,4 +25,12 @@ export function getInitialMint(): Tokens {
 
 export function getBackendPrincipal(): Principal {
     return config.backendPrincipal;
+}
+
+export function setUserPrincipal(principal: Principal) {
+    config.currentUser = principal;
+}
+
+export function getUserPrincipal(): Principal {
+    return config.currentUser;
 }

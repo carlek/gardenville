@@ -2,7 +2,7 @@
 import { defineConfig } from 'vite';
 import { svelte, vitePreprocess } from "@sveltejs/vite-plugin-svelte"
 import environment from 'vite-plugin-environment';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 export default defineConfig({

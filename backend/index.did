@@ -1,15 +1,15 @@
 type Account = record { owner : principal; subaccount : opt vec nat8 };
 type Gardener = record {
   contestEntry : vec Plant;
+  plants : vec Plant;
   info : GardenerInfo;
-  plantsGrowing : vec PlantGrowing;
   productsAvailable : vec ProductsAvailable;
 };
 type GardenerInfo = record { id : principal; contact : text; name : text };
 type ManualReply = variant { Ok : int; Err : text };
 type ManualReply_1 = variant { Ok : TransferResult; Err : text };
-type Plant = record { plantName : text };
-type PlantGrowing = record { plantName : text; quantity : nat16 };
+type Plant = record { info : PlantInfo; quantity : nat16 };
+type PlantInfo = record { plantName : text; details : vec nat8 };
 type ProductsAvailable = record { productName : text; quantity : nat16 };
 type TransferError = variant {
   GenericError : _InlineTransferErrorGenericError;
@@ -32,10 +32,10 @@ type _InlineTransferErrorGenericError = record {
 };
 type _InlineTransferErrorInsufficientFunds = record { balance : nat };
 service : () -> {
-  addPlantGrowing : (principal, text, nat16) -> ();
+  addPlant : (principal, PlantInfo, nat16) -> ();
   createGardener : (GardenerInfo) -> ();
   deleteGardener : (principal) -> ();
-  deletePlantGrowing : (principal, text) -> ();
+  deletePlant : (principal, text) -> ();
   getBalance : (Account) -> (ManualReply) query;
   getGardener : (principal) -> (opt Gardener) query;
   getGardeners : () -> (vec Gardener) query;

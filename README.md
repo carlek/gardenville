@@ -56,11 +56,14 @@ npm start # Start the development server
 **Example calls to ledger and backend canisters:**
 
 ```sh
-% dfx canister call icrc_ledger icrc1_balance_of '(record {owner=principal "k66gq-mwaa4-arqxk-cwijt-oixji-hilid-2umca-4edmd-v2qzt-w2ezk-pae"; subaccount=null})'
+% dfx identity use default
+% dfx canister call icrc_ledger icrc1_balance_of '(record {owner=principal "'$(dfx identity get-principal)'"; subaccount=null})'
 
 (100 : nat)
 
-% dfx canister call backend getBalance '(principal "ryjl3-tyaaa-aaaaa-aaaba-cai", record{owner=principal "k66gq-mwaa4-arqxk-cwijt-oixji-hilid-2umca-4edmd-v2qzt-w2ezk-pae"; subaccount=null})'
+% dfx identity use default
+% 
+% dfx canister call backend getBalance '(record {owner=principal "'$(dfx identity get-principal)'"; subaccount=null})'
 
 (variant { Ok = 100 : int })
 ```
@@ -76,10 +79,12 @@ npm start # Start the development server
   },
 )
 ```
-Burn: transfer to minter:
+Burn: transfer to minter: 
 ```sh
 % dfx identity use minter
-% dfx canister call icrc_ledger icrc1_transfer '(record {to=record {owner=principal "xo4dp-vrysm-ccbiv-4vjrp-pvkw2-buqld-4sjp5-trjzx-cmh4p-i5pex-gqe"; subaccount=null}; fee=null; memo=null; from_subaccount=null; created_at_time=null; amount=100})'
+% MINTER=$(dfx identity get-principal)
+% dfx identity use $(the user to burn)
+% dfx canister call icrc_ledger icrc1_transfer '(record {to=record {owner=principal "'$(MINTER)'"; subaccount=null}; fee=null; memo=null; from_subaccount=null; created_at_time=null; amount=100})'
 
 (variant { Ok = 4 : nat })
 ```

@@ -1,17 +1,18 @@
 import {
-    $query, $update, Opt, nat16, StableBTreeMap, Record, match, Vec, Principal
+    $query, $update, Opt, nat16, StableBTreeMap, Record, match, Vec, Principal, blob
 } from 'azle';
 
 ///////////////////////////
 // DB schema             //
 ///////////////////////////
 
-type Plant = Record<{
+type PlantInfo = Record<{
     plantName: string;
+    details: blob;
 }>;
 
-type PlantGrowing = Record<{
-    plantName: string;
+type Plant = Record<{
+    info: PlantInfo;
     quantity: nat16;
 }>;
 
@@ -28,7 +29,7 @@ type GardenerInfo = Record<{
 
 export type Gardener = Record<{
     info: GardenerInfo;
-    plantsGrowing: Vec<PlantGrowing>;
+    plants: Vec<Plant>;
     productsAvailable: Vec<ProductsAvailable>;
     contestEntry: Vec<Plant>;
 }>;
@@ -46,7 +47,7 @@ export function createGardener(info: GardenerInfo): void {
     } else {
         const newGardener: Gardener = {
             info: info,
-            plantsGrowing: [],
+            plants: [],
             productsAvailable: [],
             contestEntry: []
         };
@@ -78,19 +79,19 @@ export function getGardeners(): Vec<Gardener> {
 }
 
 $update;
-export function addPlantGrowing(id: Principal, plantName: string, quantity: nat16): void {
+export function addPlant(id: Principal, info: PlantInfo, quantity: nat16): void {
     const gardenerOpt = gdb.get(id);
 
     match(gardenerOpt, {
         Some: (gardener) => {
-            const plantGrowing: PlantGrowing = {
-                plantName,
+            const plant: Plant = {
+                info,
                 quantity
             };
-            gardener.plantsGrowing.push(plantGrowing);
+            gardener.plants.push(plant);
             gdb.remove(id);
             gdb.insert(id, gardener);
-            console.log(`Added ${quantity} ${plantName}(s) to plantsGrowing for Gardener ${id}`);
+            console.log(`Added ${quantity} ${info.plantName}(s) to plants for Gardener ${id}`);
         },
         None: () => {
             console.error(`Gardener ${id} not found.`);
@@ -99,19 +100,19 @@ export function addPlantGrowing(id: Principal, plantName: string, quantity: nat1
 }
 
 $update;
-export function deletePlantGrowing(id: Principal, plantName: string): void {
+export function deletePlant(id: Principal, plantName: string): void {
     const gardenerOpt = gdb.get(id);
 
     match(gardenerOpt, {
         Some: (gardener) => {
-            const index = gardener.plantsGrowing.findIndex(plant => plant.plantName === plantName);
+            const index = gardener.plants.findIndex(plant => plant.info.plantName === plantName);
             if (index !== -1) {
-                gardener.plantsGrowing.splice(index, 1);
+                gardener.plants.splice(index, 1);
                 gdb.remove(id);
                 gdb.insert(id, gardener);
-                console.log(`Deleted ${plantName} from plantsGrowing for Gardener ${id}`);
+                console.log(`Deleted ${plantName} from plants for Gardener ${id}`);
             } else {
-                console.log(`${plantName} not found in plantsGrowing for Gardener ${id}`);
+                console.log(`${plantName} not found in plants for Gardener ${id}`);
             }
         },
         None: () => {
