@@ -59,13 +59,13 @@ npm start # Start the development server
 % dfx identity use default
 % dfx canister call icrc_ledger icrc1_balance_of '(record {owner=principal "'$(dfx identity get-principal)'"; subaccount=null})'
 
-(100 : nat)
+(1_000 : nat)
 
 % dfx identity use default
 % 
 % dfx canister call backend getBalance '(record {owner=principal "'$(dfx identity get-principal)'"; subaccount=null})'
 
-(variant { Ok = 100 : int })
+(variant { Ok = 1_000 : int })
 ```
 ```sh
 % dfx canister call icrc_ledger icrc1_metadata
@@ -74,7 +74,7 @@ npm start # Start the development server
     record { "icrc1:decimals"; variant { Nat = 8 : nat } };
     record { "icrc1:name"; variant { Text = "GardenVilleToken" } };
     record { "icrc1:symbol"; variant { Text = "XGVT" } };
-    record { "icrc1:fee"; variant { Nat = 0 : nat } };
+    record { "icrc1:fee"; variant { Nat = 5 : nat } };
     record { "icrc1:max_memo_length"; variant { Nat = 32 : nat } };
   },
 )
@@ -84,7 +84,7 @@ Burn: transfer to minter:
 % dfx identity use minter
 % MINTER=$(dfx identity get-principal)
 % dfx identity use $(the user to burn)
-% dfx canister call icrc_ledger icrc1_transfer '(record {to=record {owner=principal "'$(MINTER)'"; subaccount=null}; fee=null; memo=null; from_subaccount=null; created_at_time=null; amount=100})'
+% dfx canister call icrc_ledger icrc1_transfer '(record {to=record {owner=principal "'$MINTER'"; subaccount=null}; fee=null; memo=null; from_subaccount=null; created_at_time=null; amount=100})'
 
 (variant { Ok = 4 : nat })
 ```
