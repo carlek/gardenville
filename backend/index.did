@@ -9,8 +9,17 @@ type GardenerInfo = record { id : principal; contact : text; name : text };
 type ManualReply = variant { Ok : int; Err : text };
 type ManualReply_1 = variant { Ok : TransferResult; Err : text };
 type Plant = record { info : PlantInfo; quantity : nat16 };
-type PlantInfo = record { plantName : text; details : vec nat8 };
-type ProductsAvailable = record { productName : text; quantity : nat16 };
+type PlantInfo = record {
+  plantName : text;
+  plantId : nat16;
+  details : vec nat8;
+};
+type ProductInfo = record {
+  productId : nat16;
+  productName : text;
+  details : vec nat8;
+};
+type ProductsAvailable = record { info : ProductInfo; quantity : nat16 };
 type TransferError = variant {
   GenericError : _InlineTransferErrorGenericError;
   TemporarilyUnavailable;

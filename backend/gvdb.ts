@@ -7,7 +7,14 @@ import {
 ///////////////////////////
 
 type PlantInfo = Record<{
+    plantId: nat16
     plantName: string;
+    details: blob;
+}>;
+
+type ProductInfo = Record<{
+    productId: nat16
+    productName: string;
     details: blob;
 }>;
 
@@ -17,7 +24,7 @@ type Plant = Record<{
 }>;
 
 type ProductsAvailable = Record<{
-    productName: string;
+    info: ProductInfo;
     quantity: nat16;
 }>;
 
