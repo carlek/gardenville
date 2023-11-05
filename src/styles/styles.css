@@ -41,7 +41,7 @@
     transition: background-color 0.2s; /* Smooth transition for hover effect */
     &:hover {background-color: #e62828;}
 }
-
+f
 .signup-button {
     position: absolute;
     bottom: 1rem;

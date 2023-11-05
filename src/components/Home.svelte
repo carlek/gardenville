@@ -8,6 +8,7 @@
     import { onMount } from "svelte";
     import { backend } from "../declarations/backend/index.js";
     import { Principal } from "azle";
+    import Contest from "./Contest.svelte";
 
     let gardenerName: string | null = null;
     let isInitialized = false;
@@ -36,6 +37,14 @@
         console.log(`signup: ${principal}`);
     };
 
+    let showContestPage = false;
+    const showContest = () => {
+        showContestPage = true;
+    }
+    const hideContest = () => {
+        showContestPage = false;
+    }
+
 </script>
 
 <main
@@ -57,8 +66,13 @@
                 {/if}
             </div>
             <div class="actions-container">
-                <button class="contest-button" on:click={() => window.location.href = '/contest'}>Contest</button>
+                {#if showContestPage}
+                    <button class="contest-button" on:click={hideContest}>Done</button>
+                {:else}
+                    <button class="contest-button" on:click={showContest}>Contest</button>
+                {/if}
             </div>
+            {#if showContestPage} <Contest />{/if}
 
         {:else}
             <h1>Welcome to GardenVille!</h1>
