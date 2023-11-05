@@ -56,6 +56,10 @@
                     <div class="info-item">Loading balance...</div>
                 {/if}
             </div>
+            <div class="actions-container">
+                <button class="contest-button" on:click={() => window.location.href = '/contest'}>Contest</button>
+            </div>
+
         {:else}
             <h1>Welcome to GardenVille!</h1>
             <h2>Sign up to start your Gardening Journey</h2>
