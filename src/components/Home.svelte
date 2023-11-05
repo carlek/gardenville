@@ -47,7 +47,7 @@
     {#if isAuthenticated && isInitialized}
         {#if gardenerName !== null}
             <div class="info-container">
-                <h3>Welcome back GardenVille</h3>
+                <h3>Welcome back to GardenVille</h3>
                 <div class="info-item">Name: {gardener.info.name}</div>
                 <div class="info-item">Contact: {gardener.info.contact}</div>
                 {#if balance !== undefined}
