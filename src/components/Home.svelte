@@ -38,11 +38,13 @@
     };
 
     let showContestPage = false;
+    let haveVoted = false;
     const showContest = () => {
         showContestPage = true;
     }
     const hideContest = () => {
         showContestPage = false;
+        haveVoted = true;
     }
 
 </script>
@@ -69,7 +71,9 @@
                 {#if showContestPage}
                     <button class="contest-button" on:click={hideContest}>Done</button>
                 {:else}
-                    <button class="contest-button" on:click={showContest}>Contest</button>
+                    {#if !haveVoted}
+                        <button class="contest-button" on:click={showContest}>Contest</button>
+                    {/if}
                 {/if}
             </div>
             {#if showContestPage} <Contest />{/if}
