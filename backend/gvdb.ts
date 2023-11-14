@@ -144,7 +144,6 @@ export function deleteGardenersPlant(id: Principal, plantId: nat16): void {
         Some: (gardener) => {
             const index = gardener.plants.findIndex(plant => plant[0] === plantId);
             if (index !== -1) {
-                console.log(index);
                 gardener.plants.splice(index, 1);
                 gardeners.remove(id);
                 gardeners.insert(id, gardener);
@@ -205,7 +204,7 @@ export function addGardenersProduct(principal: Principal, productId: nat16, quan
                     console.log(`Product ${productId} does not exist`);
                 }
             });
-            gardener.plants.push([p_id, quantity]);
+            gardener.products.push([p_id, quantity]);
             gardeners.remove(principal);
             gardeners.insert(principal, gardener);
             console.log(`Added ${quantity} ${p_name}(s) to products for Gardener ${principal}`);
