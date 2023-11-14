@@ -6,26 +6,19 @@ import {
 // DB schema             //
 ///////////////////////////
 
-type PlantInfo = Record<{
-    plantId: nat16
-    plantName: string;
-    details: blob;
-}>;
-
 type ProductInfo = Record<{
-    productId: nat16
-    productName: string;
-    details: blob;
 }>;
 
 type Plant = Record<{
-    info: PlantInfo;
-    quantity: nat16;
+    id: nat16
+    name: string;
+    details: blob;
 }>;
 
-type ProductsAvailable = Record<{
-    info: ProductInfo;
-    quantity: nat16;
+type Product = Record<{
+    id: nat16
+    name: string;
+    details: blob;
 }>;
 
 type GardenerInfo = Record<{
@@ -36,8 +29,8 @@ type GardenerInfo = Record<{
 
 export type Gardener = Record<{
     info: GardenerInfo;
-    plants: Vec<Plant>;
-    productsAvailable: Vec<ProductsAvailable>;
+    plants: Vec<[nat16, nat16]>;  // (plant id, quantity)
+    productsAvailable: Vec<[nat16, nat16]>; // (product id, quantity)
     contestEntry: Vec<Plant>;
 }>;
 
@@ -45,11 +38,14 @@ export type Gardener = Record<{
 // DB and Methods        //
 ///////////////////////////
 
-let gdb = new StableBTreeMap<Principal, Gardener>(0, 100, 10_000);
+let gardeners = new StableBTreeMap<Principal, Gardener>(0, 100, 10_000);
+let plants = new StableBTreeMap<nat16, Plant>(0, 100, 10_000);
+// TODO: let products = new StableBTreeMap<nat16, Product>(0, 100, 10_000);
+
 
 $update;
 export function createGardener(info: GardenerInfo): void {
-    if (gdb.containsKey(info.id)) {
+    if (gardeners.containsKey(info.id)) {
         console.log(`Gardener with ID ${info.id} already exists.`);
     } else {
         const newGardener: Gardener = {
@@ -58,7 +54,7 @@ export function createGardener(info: GardenerInfo): void {
             productsAvailable: [],
             contestEntry: []
         };
-        gdb.insert(info.id, newGardener);
+        gardeners.insert(info.id, newGardener);
         console.log(`Gardener ${info.name} added successfully.`);
     }
 }
@@ -66,60 +62,80 @@ export function createGardener(info: GardenerInfo): void {
 $update;
 export function deleteGardener(id: Principal): void {
     console.log(`in deleteGardener(${id})`);
-    if (!gdb.containsKey(id)) {
+    if (!gardeners.containsKey(id)) {
         console.log(`Gardener with ID ${id} does not exist.`);
     } else {
-        const gardener = gdb.remove(id);
+        const gardener = gardeners.remove(id);
         console.log(`Gardener ${gardener.Some?.info.name} deleted.`);
     }
 }
 
 $query;
 export function getGardener(id: Principal): Opt<Gardener> {
-    const gardener = gdb.get(id);
+    const gardener = gardeners.get(id);
     return gardener;
 }
 
 $query;
 export function getGardeners(): Vec<Gardener> {
-    return gdb.values();
+    return gardeners.values();
 }
 
 $update;
-export function addPlant(id: Principal, info: PlantInfo, quantity: nat16): void {
-    const gardenerOpt = gdb.get(id);
-
+export function addPlant(principal: Principal, plant: Plant, quantity: nat16): void {
+    const gardenerOpt = gardeners.get(principal);
     match(gardenerOpt, {
         Some: (gardener) => {
-            const plant: Plant = {
-                info,
-                quantity
+
+            // check if plant exists or is new
+            const plantOpt = plants.get(plant.id);
+            var p_id: nat16;
+            var p_name: string;
+            var p_details: blob;
+            match(plantOpt, {
+                Some: (p) => {
+                    p_id = p.id;
+                    p_name = p.name;
+                    p_details = p.details;
+                },
+                None: () => {
+                    const keys: nat16[] = plants.keys();
+                    if (keys) p_id = Math.max(...keys) + 1;
+                    else p_id = 1;
+                    p_name = plant.name;
+                    p_details = plant.details
+                }
+            });
+            const new_plant: Plant = {
+                id: p_id,
+                name: p_name,
+                details: p_details
             };
-            gardener.plants.push(plant);
-            gdb.remove(id);
-            gdb.insert(id, gardener);
-            console.log(`Added ${quantity} ${info.plantName}(s) to plants for Gardener ${id}`);
+            gardener.plants.push([new_plant.id, quantity]);
+            gardeners.remove(principal);
+            gardeners.insert(principal, gardener);
+            console.log(`Added ${quantity} ${plant.name}(s) to plants for Gardener ${principal}`);
         },
         None: () => {
-            console.error(`Gardener ${id} not found.`);
+            console.error(`Gardener ${principal} not found.`);
         }
     });
 }
 
 $update;
-export function deletePlant(id: Principal, plantName: string): void {
-    const gardenerOpt = gdb.get(id);
+export function deleteGardenersPlant(id: Principal, plantId: nat16): void {
+    const gardenerOpt = gardeners.get(id);
 
     match(gardenerOpt, {
         Some: (gardener) => {
-            const index = gardener.plants.findIndex(plant => plant.info.plantName === plantName);
+            const index = gardener.plants.findIndex(plant => plant[0] === plantId);
             if (index !== -1) {
                 gardener.plants.splice(index, 1);
-                gdb.remove(id);
-                gdb.insert(id, gardener);
-                console.log(`Deleted ${plantName} from plants for Gardener ${id}`);
+                gardeners.remove(id);
+                gardeners.insert(id, gardener);
+                console.log(`Deleted ${plantId} from plants for Gardener ${id}`);
             } else {
-                console.log(`${plantName} not found in plants for Gardener ${id}`);
+                console.log(`${plantId} not found in plants for Gardener ${id}`);
             }
         },
         None: () => {

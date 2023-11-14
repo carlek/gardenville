@@ -3,23 +3,13 @@ type Gardener = record {
   contestEntry : vec Plant;
   plants : vec Plant;
   info : GardenerInfo;
-  productsAvailable : vec ProductsAvailable;
+  productsAvailable : vec Plant;
 };
 type GardenerInfo = record { id : principal; contact : text; name : text };
 type ManualReply = variant { Ok : int; Err : text };
 type ManualReply_1 = variant { Ok : TransferResult; Err : text };
 type Plant = record { info : PlantInfo; quantity : nat16 };
-type PlantInfo = record {
-  plantName : text;
-  plantId : nat16;
-  details : vec nat8;
-};
-type ProductInfo = record {
-  productId : nat16;
-  productName : text;
-  details : vec nat8;
-};
-type ProductsAvailable = record { info : ProductInfo; quantity : nat16 };
+type PlantInfo = record { id : nat16; name : text; details : vec nat8 };
 type TransferError = variant {
   GenericError : _InlineTransferErrorGenericError;
   TemporarilyUnavailable;
