@@ -39,7 +39,7 @@ export type Gardener = Record<{
 
 let gardeners = new StableBTreeMap<Principal, Gardener>(0, 100, 10_000);
 let plants = new StableBTreeMap<nat16, Plant>(1, 100, 10_000);
-let products = new StableBTreeMap<nat16, Product>(2, 100, 10_000);   
+let products = new StableBTreeMap<nat16, Product>(2, 100, 10_000);
 
 
 $update;
@@ -86,7 +86,7 @@ export function getPlants(): Vec<Plant> {
 }
 
 $update;
-export function addPlant(name: string, details: blob): nat16 {
+export function createPlant(name: string, details: blob): nat16 {
     var p_id: nat16;
     const keys: nat16[] = plants.keys();
     if (keys) p_id = Math.max(...keys) + 1;
@@ -101,7 +101,7 @@ export function deletePlant(plantId: nat16): void {
     match(plantOpt, {
         Some: (p) => {
             plants.remove(p.id);
-        }, 
+        },
         None: () => {
             console.log(`Plant ${plantId} does not exist.`);
         }
@@ -151,6 +151,84 @@ export function deleteGardenersPlant(id: Principal, plantId: nat16): void {
                 console.log(`Deleted ${plantId} from plants for Gardener ${id}`);
             } else {
                 console.log(`${plantId} not found in plants for Gardener ${id}`);
+            }
+        },
+        None: () => {
+            console.log(`Gardener ${id} not found.`);
+        }
+    });
+}
+
+$query;
+export function getProducts(): Vec<Product> {
+    return products.values();
+}
+
+$update;
+export function createProduct(name: string, details: blob): nat16 {
+    var p_id: nat16;
+    const keys: nat16[] = products.keys();
+    if (keys) p_id = Math.max(...keys) + 1;
+    else p_id = 1;
+    products.insert(p_id, { id: p_id, name: name, details: details });
+    return (p_id);
+}
+
+$update;
+export function deleteProduct(productId: nat16): void {
+    const productOpt = plants.get(productId);
+    match(productOpt, {
+        Some: (p) => {
+            products.remove(p.id);
+        },
+        None: () => {
+            console.log(`Plant ${productId} does not exist.`);
+        }
+    });
+}
+
+$update;
+export function addGardenersProduct(principal: Principal, productId: nat16, quantity: nat16): void {
+    const gardenerOpt = gardeners.get(principal);
+    match(gardenerOpt, {
+        Some: (gardener) => {
+            // check if plant exists or is new
+            const productOpt = products.get(productId);
+            var p_id: nat16;
+            var p_name: string;
+            match(productOpt, {
+                Some: (p) => {
+                    p_id = p.id;
+                    p_name = p.name;
+                },
+                None: () => {
+                    console.log(`Product ${productId} does not exist`);
+                }
+            });
+            gardener.plants.push([p_id, quantity]);
+            gardeners.remove(principal);
+            gardeners.insert(principal, gardener);
+            console.log(`Added ${quantity} ${p_name}(s) to products for Gardener ${principal}`);
+        },
+        None: () => {
+            console.error(`Gardener ${principal} not found.`);
+        }
+    });
+}
+
+$update;
+export function deleteGardenersProduct(id: Principal, productId: nat16): void {
+    const gardenerOpt = gardeners.get(id);
+    match(gardenerOpt, {
+        Some: (gardener) => {
+            const index = gardener.products.findIndex(product => product[0] === productId);
+            if (index !== -1) {
+                gardener.products.splice(index, 1);
+                gardeners.remove(id);
+                gardeners.insert(id, gardener);
+                console.log(`Deleted ${productId} from products for Gardener ${id}`);
+            } else {
+                console.log(`${productId} not found in products for Gardener ${id}`);
             }
         },
         None: () => {
