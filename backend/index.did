@@ -1,15 +1,14 @@
 type Account = record { owner : principal; subaccount : opt vec nat8 };
 type Gardener = record {
   contestEntry : vec Plant;
-  plants : vec Plant;
+  plants : vec record { nat16; nat16 };
   info : GardenerInfo;
-  productsAvailable : vec Plant;
+  productsAvailable : vec record { nat16; nat16 };
 };
 type GardenerInfo = record { id : principal; contact : text; name : text };
 type ManualReply = variant { Ok : int; Err : text };
 type ManualReply_1 = variant { Ok : TransferResult; Err : text };
-type Plant = record { info : PlantInfo; quantity : nat16 };
-type PlantInfo = record { id : nat16; name : text; details : vec nat8 };
+type Plant = record { id : nat16; name : text; details : vec nat8 };
 type TransferError = variant {
   GenericError : _InlineTransferErrorGenericError;
   TemporarilyUnavailable;
@@ -31,15 +30,16 @@ type _InlineTransferErrorGenericError = record {
 };
 type _InlineTransferErrorInsufficientFunds = record { balance : nat };
 service : () -> {
-  addPlant : (principal, PlantInfo, nat16) -> ();
+  addPlant : (principal, Plant, nat16) -> ();
   createGardener : (GardenerInfo) -> ();
   deleteGardener : (principal) -> ();
-  deletePlant : (principal, text) -> ();
+  deleteGardenersPlant : (principal, nat16) -> ();
   getBalance : (Account) -> (ManualReply) query;
   getGardener : (principal) -> (opt Gardener) query;
   getGardeners : () -> (vec Gardener) query;
   getIcrcName : () -> (text) query;
   getIcrcSymbol : () -> (text) query;
+  getPlants : () -> (vec Plant) query;
   mintTokens : (Account, nat) -> (ManualReply_1);
   principalCaller : () -> (principal) query;
 }

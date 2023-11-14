@@ -13,9 +13,10 @@ export {
     createGardener,
     getGardener,
     getGardeners,
+    getPlants,
     deleteGardener,
     addPlant,
-    deletePlant,
+    deleteGardenersPlant,
 } from "./gvdb";
 
 import { $query, Principal, ic } from "azle";

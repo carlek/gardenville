@@ -1,5 +1,5 @@
 import {
-    $query, $update, Opt, nat16, StableBTreeMap, Record, match, Vec, Principal, blob
+    $query, $update, Opt, nat16, StableBTreeMap, Record, match, Vec, Principal, blob, Tuple, 
 } from 'azle';
 
 ///////////////////////////
@@ -27,10 +27,12 @@ type GardenerInfo = Record<{
     contact: string;
 }>;
 
+type NatTuple = Tuple<[nat16, nat16]>;
+
 export type Gardener = Record<{
     info: GardenerInfo;
-    plants: Vec<[nat16, nat16]>;  // (plant id, quantity)
-    productsAvailable: Vec<[nat16, nat16]>; // (product id, quantity)
+    plants: Vec<NatTuple>;  // (plant id, quantity)
+    productsAvailable: Vec<NatTuple>; // (product id, quantity)
     contestEntry: Vec<Plant>;
 }>;
 
@@ -39,8 +41,8 @@ export type Gardener = Record<{
 ///////////////////////////
 
 let gardeners = new StableBTreeMap<Principal, Gardener>(0, 100, 10_000);
-let plants = new StableBTreeMap<nat16, Plant>(0, 100, 10_000);
-// TODO: let products = new StableBTreeMap<nat16, Product>(0, 100, 10_000);
+let plants = new StableBTreeMap<nat16, Plant>(1, 100, 10_000);
+// let products = new StableBTreeMap<nat16, Product>(2, 100, 10_000);   
 
 
 $update;
@@ -81,6 +83,11 @@ export function getGardeners(): Vec<Gardener> {
     return gardeners.values();
 }
 
+$query;
+export function getPlants(): Vec<Plant> {
+    return plants.values();
+}
+
 $update;
 export function addPlant(principal: Principal, plant: Plant, quantity: nat16): void {
     const gardenerOpt = gardeners.get(principal);
@@ -104,6 +111,7 @@ export function addPlant(principal: Principal, plant: Plant, quantity: nat16): v
                     else p_id = 1;
                     p_name = plant.name;
                     p_details = plant.details
+                    plants.insert(p_id, {id: p_id, name: p_name, details: p_details});
                 }
             });
             const new_plant: Plant = {
