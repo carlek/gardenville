@@ -16,6 +16,8 @@ export {
     getPlants,
     deleteGardener,
     addPlant,
+    deletePlant,
+    addGardenersPlant,
     deleteGardenersPlant,
 } from "./gvdb";
 

@@ -30,10 +30,12 @@ type _InlineTransferErrorGenericError = record {
 };
 type _InlineTransferErrorInsufficientFunds = record { balance : nat };
 service : () -> {
-  addPlant : (principal, Plant, nat16) -> ();
+  addGardenersPlant : (principal, nat16, nat16) -> ();
+  addPlant : (text, vec nat8) -> (nat16);
   createGardener : (GardenerInfo) -> ();
   deleteGardener : (principal) -> ();
   deleteGardenersPlant : (principal, nat16) -> ();
+  deletePlant : (nat16) -> ();
   getBalance : (Account) -> (ManualReply) query;
   getGardener : (principal) -> (opt Gardener) query;
   getGardeners : () -> (vec Gardener) query;

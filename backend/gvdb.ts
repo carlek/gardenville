@@ -1,13 +1,10 @@
 import {
-    $query, $update, Opt, nat16, StableBTreeMap, Record, match, Vec, Principal, blob, Tuple, 
+    $query, $update, Opt, nat16, StableBTreeMap, Record, match, Vec, Principal, blob, Tuple,
 } from 'azle';
 
 ///////////////////////////
 // DB schema             //
 ///////////////////////////
-
-type ProductInfo = Record<{
-}>;
 
 type Plant = Record<{
     id: nat16
@@ -32,7 +29,7 @@ type NatTuple = Tuple<[nat16, nat16]>;
 export type Gardener = Record<{
     info: GardenerInfo;
     plants: Vec<NatTuple>;  // (plant id, quantity)
-    productsAvailable: Vec<NatTuple>; // (product id, quantity)
+    products: Vec<NatTuple>; // (product id, quantity)
     contestEntry: Vec<Plant>;
 }>;
 
@@ -42,7 +39,7 @@ export type Gardener = Record<{
 
 let gardeners = new StableBTreeMap<Principal, Gardener>(0, 100, 10_000);
 let plants = new StableBTreeMap<nat16, Plant>(1, 100, 10_000);
-// let products = new StableBTreeMap<nat16, Product>(2, 100, 10_000);   
+let products = new StableBTreeMap<nat16, Product>(2, 100, 10_000);   
 
 
 $update;
@@ -53,7 +50,7 @@ export function createGardener(info: GardenerInfo): void {
         const newGardener: Gardener = {
             info: info,
             plants: [],
-            productsAvailable: [],
+            products: [],
             contestEntry: []
         };
         gardeners.insert(info.id, newGardener);
@@ -89,40 +86,50 @@ export function getPlants(): Vec<Plant> {
 }
 
 $update;
-export function addPlant(principal: Principal, plant: Plant, quantity: nat16): void {
+export function addPlant(name: string, details: blob): nat16 {
+    var p_id: nat16;
+    const keys: nat16[] = plants.keys();
+    if (keys) p_id = Math.max(...keys) + 1;
+    else p_id = 1;
+    plants.insert(p_id, { id: p_id, name: name, details: details });
+    return (p_id);
+}
+
+$update;
+export function deletePlant(plantId: nat16): void {
+    const plantOpt = plants.get(plantId);
+    match(plantOpt, {
+        Some: (p) => {
+            plants.remove(p.id);
+        }, 
+        None: () => {
+            console.log(`Plant ${plantId} does not exist.`);
+        }
+    });
+}
+
+$update;
+export function addGardenersPlant(principal: Principal, plantId: nat16, quantity: nat16): void {
     const gardenerOpt = gardeners.get(principal);
     match(gardenerOpt, {
         Some: (gardener) => {
-
             // check if plant exists or is new
-            const plantOpt = plants.get(plant.id);
+            const plantOpt = plants.get(plantId);
             var p_id: nat16;
             var p_name: string;
-            var p_details: blob;
             match(plantOpt, {
                 Some: (p) => {
                     p_id = p.id;
                     p_name = p.name;
-                    p_details = p.details;
                 },
                 None: () => {
-                    const keys: nat16[] = plants.keys();
-                    if (keys) p_id = Math.max(...keys) + 1;
-                    else p_id = 1;
-                    p_name = plant.name;
-                    p_details = plant.details
-                    plants.insert(p_id, {id: p_id, name: p_name, details: p_details});
+                    console.log(`Plant ${plantId} does not exist`);
                 }
             });
-            const new_plant: Plant = {
-                id: p_id,
-                name: p_name,
-                details: p_details
-            };
-            gardener.plants.push([new_plant.id, quantity]);
+            gardener.plants.push([p_id, quantity]);
             gardeners.remove(principal);
             gardeners.insert(principal, gardener);
-            console.log(`Added ${quantity} ${plant.name}(s) to plants for Gardener ${principal}`);
+            console.log(`Added ${quantity} ${p_name}(s) to plants for Gardener ${principal}`);
         },
         None: () => {
             console.error(`Gardener ${principal} not found.`);
@@ -133,11 +140,11 @@ export function addPlant(principal: Principal, plant: Plant, quantity: nat16): v
 $update;
 export function deleteGardenersPlant(id: Principal, plantId: nat16): void {
     const gardenerOpt = gardeners.get(id);
-
     match(gardenerOpt, {
         Some: (gardener) => {
             const index = gardener.plants.findIndex(plant => plant[0] === plantId);
             if (index !== -1) {
+                console.log(index);
                 gardener.plants.splice(index, 1);
                 gardeners.remove(id);
                 gardeners.insert(id, gardener);
