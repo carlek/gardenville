@@ -120,7 +120,7 @@ f
 }
 
 .contest-button {
-    position: absolute;
+    position: relative;
     bottom: 1rem;
     background-color: #6479ff; /* Background color for the button */
     border: none;
@@ -140,10 +140,7 @@ f
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s;
-}
-
-.contest-entry:hover {
-    background-color: #b3e6ff; /* Change the background color on hover */
+    &:hover {background-color: #b3e6ff;}
 }
 
 .contest-entry.selected {
@@ -164,6 +161,60 @@ f
 }
 
 .vote-message {
+    margin-top: 10px;
+    font-weight: bold;
+    border-radius: 4px;
+    background-color: #e6282e;
+}
+
+.add-plant-button {
+    position: relative;
+    bottom: 1rem;
+    background-color: #6479ff; /* Background color for the button */
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem; /* Added padding for the button */
+    border-radius: 4px; /* Rounded corners for the button */
+    font-weight: bold; /* Make the text bold for better visibility */
+    cursor: pointer;
+    transition: background-color 0.2s; /* Smooth transition for hover effect */
+    &:hover {background-color: #28b3e6;}
+}
+
+.create-plant-button {
+    bottom: 1rem;
+    background-color: #6479ff; /* Background color for the button */
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem; /* Added padding for the button */
+    border-radius: 4px; /* Rounded corners for the button */
+    font-weight: bold; /* Make the text bold for better visibility */
+    cursor: pointer;
+    transition: background-color 0.2s; /* Smooth transition for hover effect */
+    &:hover {background-color: #28b3e6;}
+}
+
+.create-plant-message {
+    margin-top: 10px;
+    font-weight: bold;
+    border-radius: 4px;
+    background-color: #e6282e;
+}
+
+.add-to-gardener-button {
+    bottom: 1rem;
+    background-color: #6479ff; /* Background color for the button */
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem; /* Added padding for the button */
+    border-radius: 4px; /* Rounded corners for the button */
+    font-weight: bold; /* Make the text bold for better visibility */
+    cursor: pointer;
+    transition: background-color 0.2s; /* Smooth transition for hover effect */
+    &:hover {background-color: #28b3e6;}
+}
+
+.add-to-gardener-message {
     margin-top: 10px;
     font-weight: bold;
     border-radius: 4px;

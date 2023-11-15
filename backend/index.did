@@ -8,7 +8,7 @@ type Gardener = record {
 type GardenerInfo = record { id : principal; contact : text; name : text };
 type ManualReply = variant { Ok : int; Err : text };
 type ManualReply_1 = variant { Ok : TransferResult; Err : text };
-type Plant = record { id : nat16; name : text; details : vec nat8 };
+type Plant = record { id : nat16; name : text; details : text };
 type TransferError = variant {
   GenericError : _InlineTransferErrorGenericError;
   TemporarilyUnavailable;
@@ -33,8 +33,8 @@ service : () -> {
   addGardenersPlant : (principal, nat16, nat16) -> ();
   addGardenersProduct : (principal, nat16, nat16) -> ();
   createGardener : (GardenerInfo) -> ();
-  createPlant : (text, vec nat8) -> (nat16);
-  createProduct : (text, vec nat8) -> (nat16);
+  createPlant : (text, text) -> (nat16);
+  createProduct : (text, text) -> (nat16);
   deleteGardener : (principal) -> ();
   deleteGardenersPlant : (principal, nat16) -> ();
   deleteGardenersProduct : (principal, nat16) -> ();

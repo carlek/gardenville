@@ -9,6 +9,7 @@
     import { backend } from "../declarations/backend/index.js";
     import { Principal } from "azle";
     import Contest from "./Contest.svelte";
+    import AddPlant from "./AddPlant.svelte";
 
     let gardenerName: string | null = null;
     let isInitialized = false;
@@ -47,6 +48,17 @@
         haveVoted = true;
     }
 
+    let showAddPlantPage = false;
+    let haveAdded = false;
+    const showAddPlant = () => {
+        showAddPlantPage = true;
+    }
+    const hideAddPlant = () => {
+        showAddPlantPage = false;
+        haveAdded = true;
+    }
+
+
 </script>
 
 <main
@@ -75,8 +87,17 @@
                         <button class="contest-button" on:click={showContest}>Contest</button>
                     {/if}
                 {/if}
+                {#if showAddPlantPage}
+                    <button class="add-plant-button" on:click={hideAddPlant}>Done</button>
+                {:else}
+                {#if !haveAdded}
+                    <button class="add-plant-button" on:click={showAddPlant}>Add Plant</button>
+                {/if}
+            {/if}
             </div>
-            {#if showContestPage} <Contest />{/if}
+
+            {#if showAddPlantPage} <AddPlant {principal} />{/if}
+            {#if showContestPage} <Contest {principal} />{/if}
 
         {:else}
             <h1>Welcome to GardenVille!</h1>

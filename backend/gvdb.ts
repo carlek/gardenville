@@ -9,13 +9,13 @@ import {
 type Plant = Record<{
     id: nat16
     name: string;
-    details: blob;
+    details: string;
 }>;
 
 type Product = Record<{
     id: nat16
     name: string;
-    details: blob;
+    details: string;
 }>;
 
 type GardenerInfo = Record<{
@@ -40,7 +40,6 @@ export type Gardener = Record<{
 let gardeners = new StableBTreeMap<Principal, Gardener>(0, 100, 10_000);
 let plants = new StableBTreeMap<nat16, Plant>(1, 100, 10_000);
 let products = new StableBTreeMap<nat16, Product>(2, 100, 10_000);
-
 
 $update;
 export function createGardener(info: GardenerInfo): void {
@@ -86,7 +85,7 @@ export function getPlants(): Vec<Plant> {
 }
 
 $update;
-export function createPlant(name: string, details: blob): nat16 {
+export function createPlant(name: string, details: string): nat16 {
     var p_id: nat16;
     const keys: nat16[] = plants.keys();
     if (keys) p_id = Math.max(...keys) + 1;
@@ -164,7 +163,7 @@ export function getProducts(): Vec<Product> {
 }
 
 $update;
-export function createProduct(name: string, details: blob): nat16 {
+export function createProduct(name: string, details: string): nat16 {
     var p_id: nat16;
     const keys: nat16[] = products.keys();
     if (keys) p_id = Math.max(...keys) + 1;

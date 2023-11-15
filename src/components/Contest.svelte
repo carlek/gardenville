@@ -1,4 +1,8 @@
-<script>
+<script lang="ts">
+    import { Principal } from "azle";
+    import "../styles/styles.css";
+    export let principal: Principal;
+    
     let contestEntries = [
         { id: 1, name: "Entry 1" },
         { id: 2, name: "Entry 2" },
