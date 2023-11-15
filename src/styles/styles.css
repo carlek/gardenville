@@ -133,6 +133,43 @@ f
     &:hover {background-color: #28b3e6;}
 }
 
+.contest-entry {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.contest-entry:hover {
+    background-color: #b3e6ff; /* Change the background color on hover */
+}
+
+.contest-entry.selected {
+    background-color: #28b3e6; /* Change the background color when selected */
+}
+
+.vote-button {
+    bottom: 1rem;
+    background-color: #6479ff; /* Background color for the button */
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem; /* Added padding for the button */
+    border-radius: 4px; /* Rounded corners for the button */
+    font-weight: bold; /* Make the text bold for better visibility */
+    cursor: pointer;
+    transition: background-color 0.2s; /* Smooth transition for hover effect */
+    &:hover {background-color: #28b3e6;}
+}
+
+.vote-message {
+    margin-top: 10px;
+    font-weight: bold;
+    border-radius: 4px;
+    background-color: #e6282e;
+}
+
 .icp-logo {
     width: 60px;
     position: absolute;
