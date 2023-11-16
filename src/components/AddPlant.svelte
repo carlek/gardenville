@@ -47,11 +47,11 @@
     <div class="actions-container">
         <h3>New Plant?</h3>
         <div class="input-section">
-            <label for="plantName">Plant Name:</label>
+            <label for="plantName">Name:</label>
             <textarea id="plantName" bind:value={plantName}></textarea>
         </div>
         <div class="input-section">
-            <label for="plantDetails">Plant Details:</label>
+            <label for="plantDetails">Details:</label>
             <textarea id="plantDetails" bind:value={plantDetails}></textarea>
         </div>
         <button class="create-plant-button" on:click={createNewPlant}>Add to GardenVille</button>
