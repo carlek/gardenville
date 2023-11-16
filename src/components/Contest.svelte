@@ -1,8 +1,8 @@
 <script lang="ts">
     import { Principal } from "azle";
     import "../styles/styles.css";
-    export let principal: Principal;
-    
+    export let principal: Principal | null;
+
     let contestEntries = [
         { id: 1, name: "Entry 1" },
         { id: 2, name: "Entry 2" },
@@ -23,27 +23,30 @@
 </script>
 
 <main class="contest-page">
-    <h2>Contest Entries</h2>
-    {#each contestEntries as entry (entry.id)}
-        <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <div
-            class="contest-entry"
-            on:click={() => (selectedEntry = entry)}
-            on:keydown={(e) => {
-                if (e.key === "Enter") {
-                    selectedEntry = entry;
-                }
-            }}
-            tabindex="0"
-            class:selected={selectedEntry === entry}
-        >
-            {entry.name}
-        </div>
-    {/each}
+    <div class="actions-container">
+        <h2>Contest Entries</h2>
+        {#each contestEntries as entry (entry.id)}
+            <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <div
+                class="contest-entry"
+                on:click={() => (selectedEntry = entry)}
+                on:keydown={(e) => {
+                    if (e.key === "Enter") {
+                        selectedEntry = entry;
+                    }
+                }}
+                tabindex="0"
+                class:selected={selectedEntry === entry}
+            >
+                {entry.name}
+            </div>
+        {/each}
+    </div>
 
     <button class="vote-button" on:click={vote}>Vote</button>
     {#if voteMessage !== null}
         <p class="vote-message">{voteMessage}</p>
     {/if}
+
 </main>

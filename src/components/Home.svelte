@@ -79,7 +79,7 @@
                     <div class="info-item">Loading balance...</div>
                 {/if}
             </div>
-            <div class="actions-container">
+            <div class="buttons-container">
                 {#if showContestPage}
                     <button class="contest-button" on:click={hideContest}>Done</button>
                 {:else}
@@ -90,15 +90,13 @@
                 {#if showAddPlantPage}
                     <button class="add-plant-button" on:click={hideAddPlant}>Done</button>
                 {:else}
-                {#if !haveAdded}
-                    <button class="add-plant-button" on:click={showAddPlant}>Add Plant</button>
+                    {#if !haveAdded}
+                        <button class="add-plant-button" on:click={showAddPlant}>Add Plant</button>
+                    {/if}
                 {/if}
-            {/if}
             </div>
-
             {#if showAddPlantPage} <AddPlant {principal} />{/if}
             {#if showContestPage} <Contest {principal} />{/if}
-
         {:else}
             <h1>Welcome to GardenVille!</h1>
             <h2>Sign up to start your Gardening Journey</h2>

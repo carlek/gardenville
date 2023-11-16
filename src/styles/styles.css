@@ -91,7 +91,7 @@ f
 }
 
 .info-container {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.3);
     border-radius: 10px;
     padding: 10px;
     margin-top: 20px;
@@ -108,19 +108,31 @@ f
 }
 
 .actions-container {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     padding: 10px;
     margin-top: 20px;
     position: absolute;
-    top: calc(1rem + 300px); /* Adjust to position below icp-logo */
+    top: calc(1rem + 60px);
+    right: 40%;
+    font-weight: bold;
+    text-align: left; /* Align text to the left */
+}
+
+.buttons-container {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px;
+    position: absolute;
+    top: calc(1rem + 300px);
     left: 5%;
     font-weight: bold;
     text-align: left; /* Align text to the left */
 }
 
 .contest-button {
-    position: relative;
+    position: static;
     bottom: 1rem;
     background-color: #6479ff; /* Background color for the button */
     border: none;
@@ -168,7 +180,7 @@ f
 }
 
 .add-plant-button {
-    position: relative;
+    position: static;
     bottom: 1rem;
     background-color: #6479ff; /* Background color for the button */
     border: none;
@@ -195,6 +207,8 @@ f
 }
 
 .create-plant-message {
+    position: absolute;
+    bottom: 1rem;
     margin-top: 10px;
     font-weight: bold;
     border-radius: 4px;
@@ -215,6 +229,8 @@ f
 }
 
 .add-to-gardener-message {
+    position: absolute;
+    bottom: 1rem;
     margin-top: 10px;
     font-weight: bold;
     border-radius: 4px;
