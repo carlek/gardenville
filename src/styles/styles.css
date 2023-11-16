@@ -26,12 +26,6 @@
     color: white;
     position: relative;
 }
-/* 
-width: 60px;
-position: absolute;
-top: 1rem;
-left: 5%;
-transition: transform 0.3s; */
 
 .logout-button {
     position: absolute;
@@ -127,6 +121,9 @@ f
 }
 
 .buttons-container {
+    max-width: 300px; /* Set your desired fixed width */
+    /* display: flex; */
+    flex-direction: column;
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 10px;
     padding: 10px;
@@ -138,17 +135,17 @@ f
     text-align: left; /* Align text to the left */
 }
 
-.contest-button {
+.contest-button, .add-plant-button, .my-garden-button {
     position: static;
     bottom: 1rem;
     background-color: #6479ff; /* Background color for the button */
     border: none;
     color: white;
-    padding: 0.5rem 1rem; /* Added padding for the button */
-    border-radius: 4px; /* Rounded corners for the button */
-    font-weight: bold; /* Make the text bold for better visibility */
+    padding: 0.5rem 1rem; 
+    border-radius: 4px; 
+    font-weight: bold; 
     cursor: pointer;
-    transition: background-color 0.2s; /* Smooth transition for hover effect */
+    transition: background-color 0.2s; 
     &:hover {background-color: #28b3e6;}
 }
 
@@ -209,20 +206,6 @@ input {
     font-size: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-.add-plant-button {
-    position: static;
-    bottom: 1rem;
-    background-color: #6479ff; /* Background color for the button */
-    border: none;
-    color: white;
-    padding: 0.5rem 1rem; /* Added padding for the button */
-    border-radius: 4px; /* Rounded corners for the button */
-    font-weight: bold; /* Make the text bold for better visibility */
-    cursor: pointer;
-    transition: background-color 0.2s; /* Smooth transition for hover effect */
-    &:hover {background-color: #28b3e6;}
 }
 
 .create-plant-button {
