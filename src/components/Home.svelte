@@ -58,7 +58,6 @@
         haveAdded = true;
     }
 
-
 </script>
 
 <main
@@ -84,14 +83,14 @@
                     <button class="contest-button" on:click={hideContest}>Done</button>
                 {:else}
                     {#if !haveVoted}
-                        <button class="contest-button" on:click={showContest}>Contest</button>
+                        <button class="contest-button" on:click={showContest} disabled={showAddPlantPage}>Contest</button>
                     {/if}
                 {/if}
                 {#if showAddPlantPage}
                     <button class="add-plant-button" on:click={hideAddPlant}>Done</button>
                 {:else}
                     {#if !haveAdded}
-                        <button class="add-plant-button" on:click={showAddPlant}>Add Plant</button>
+                        <button class="add-plant-button" on:click={showAddPlant} disabled={showContestPage}>Add Plant</button>
                     {/if}
                 {/if}
             </div>

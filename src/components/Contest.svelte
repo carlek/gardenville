@@ -42,9 +42,9 @@
                 {entry.name}
             </div>
         {/each}
+        <button class="vote-button" on:click={vote}>Vote</button>
     </div>
 
-    <button class="vote-button" on:click={vote}>Vote</button>
     {#if voteMessage !== null}
         <p class="vote-message">{voteMessage}</p>
     {/if}
