@@ -45,7 +45,7 @@
 
 <main class="plant-input-page">
     <div class="actions-container">
-        <h3>Plant Input</h3>
+        <h3>New Plant?</h3>
         <div class="input-section">
             <label for="plantName">Plant Name:</label>
             <textarea id="plantName" bind:value={plantName}></textarea>
@@ -54,9 +54,9 @@
             <label for="plantDetails">Plant Details:</label>
             <textarea id="plantDetails" bind:value={plantDetails}></textarea>
         </div>
-        <button class="create-plant-button" on:click={createNewPlant}>Create Plant</button>
+        <button class="create-plant-button" on:click={createNewPlant}>Add to GardenVille</button>
 
-        <h3>Add Plant to Garden</h3>
+        <h3>Add Plant to Your Garden</h3>
         <div class="input-section">
             <label for="plantId">Plant:</label>
             <select id="plantId" bind:value={plantId}>
@@ -69,7 +69,7 @@
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" bind:value={quantity} />
         </div>
-        <button class="add-to-gardener-button" on:click={addPlantToGardener}>Add to Gardener</button>
+        <button class="add-to-gardener-button" on:click={addPlantToGardener}>Add to Garden</button>
         <button class="done-button" on:click={hideAddPlant}>Done</button>
     </div>
     {#if createPlantMessage !== null}
