@@ -26,17 +26,23 @@
     color: white;
     position: relative;
 }
+/* 
+width: 60px;
+position: absolute;
+top: 1rem;
+left: 5%;
+transition: transform 0.3s; */
 
 .logout-button {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 2rem;
+    left: 15rem;
     background-color: #646cff; /* Background color for the button */
     border: none;
     color: white;
     padding: 0.5rem 1rem; /* Added padding for the button */
     border-radius: 4px; /* Rounded corners for the button */
-    font-weight: bold; /* Make the text bold for better visibility */
+    font-weight: bold; 
     cursor: pointer;
     transition: background-color 0.2s; /* Smooth transition for hover effect */
     &:hover {background-color: #e62828;}

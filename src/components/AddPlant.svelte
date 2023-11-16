@@ -13,18 +13,26 @@
     let createPlantMessage = null;
     let addPlantToGardenerMessage = null;
 
+    import { writable } from 'svelte/store';
+    let plants = writable([]);
+    const updatePlants = async () => {
+        const result = await backend.getPlants();
+        plants.set(result);
+    };
+    updatePlants(); 
+
     const createNewPlant = async () => {
         if (plantName && plantDetails) {
             plantId = await backend.createPlant(plantName, plantDetails);
             createPlantMessage = `Plant ${plantName} created with ID ${plantId}.`;
+            updatePlants(); 
         } else {
             createPlantMessage = 'Please fill in both plant name and details.';
         }
     };
 
     const addPlantToGardener = async () => {
-        // Assuming you have the gardener's ID stored somewhere
-        const gardenerId = principal; // Replace with the actual gardener's ID
+        const gardenerId = principal; 
         createPlantMessage = null;
         if (plantId !== null && quantity !== null) {
             await backend.addGardenersPlant(gardenerId, plantId, quantity);
@@ -48,10 +56,14 @@
         </div>
         <button class="create-plant-button" on:click={createNewPlant}>Create Plant</button>
 
-        <h3>Add Plant to Gardener</h3>
+        <h3>Add Plant to Garden</h3>
         <div class="input-section">
-            <label for="plantId">Plant ID:</label>
-            <input type="number" id="plantId" bind:value={plantId} />
+            <label for="plantId">Plant:</label>
+            <select id="plantId" bind:value={plantId}>
+                {#each $plants as { id, name, details }}
+                    <option value={id}>{name} {details}</option>
+                {/each}
+            </select>
         </div>
         <div class="input-section">
             <label for="quantity">Quantity:</label>
