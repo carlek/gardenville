@@ -11,7 +11,7 @@
 
     import AddPlant from "./AddPlant.svelte";
     import Contest from "./Contest.svelte";
-    import { activeAddPlantPage, activeContestPage, showAddPlant, showContest } from "../sharedStore";
+    import { disableContestButton, disableAddPlantButton, showAddPlant, showContest, gotoAddPlant, gotoContest } from "../sharedStore";
 
     let gardenerName: string | null = null;
     let isInitialized = false;
@@ -61,11 +61,11 @@
                 {/if}
             </div>
             <div class="buttons-container">
-                <button class="contest-button" on:click={showContest} disabled={$activeAddPlantPage}>Contest</button>
-                <button class="add-plant-button" on:click={showAddPlant} disabled={$activeContestPage}>Add Plant</button>
+                <button class="contest-button" on:click={showContest} disabled={$disableContestButton}>Contest</button>
+                <button class="add-plant-button" on:click={showAddPlant} disabled={$disableAddPlantButton}>Add Plant</button>
             </div>
-            {#if $activeAddPlantPage} <AddPlant {principal} />{/if}
-            {#if $activeContestPage} <Contest {principal} />{/if}
+            {#if $gotoAddPlant} <AddPlant {principal} />{/if}
+            {#if $gotoContest} <Contest {principal} />{/if}
         {:else}
             <h1>Welcome to GardenVille!</h1>
             <h2>Sign up to start your Gardening Journey</h2>

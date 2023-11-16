@@ -61,7 +61,7 @@
             <label for="plantId">Plant:</label>
             <select id="plantId" bind:value={plantId}>
                 {#each $plants as { id, name, details }}
-                    <option value={id}>{name} {details}</option>
+                    <option value={id}>{name} 🪴 {details}</option>
                 {/each}
             </select>
         </div>
