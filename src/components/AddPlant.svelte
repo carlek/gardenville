@@ -1,8 +1,9 @@
-<!-- PlantInput.svelte -->
 <script lang="ts">
+    import { writable } from 'svelte/store';
     import { Principal } from "azle";
     import "../styles/styles.css";
     import { backend } from "../declarations/backend/index.js"; 
+    import { hideAddPlant } from '../sharedStore';
     export let principal: Principal | null;
 
     let plantName = '';
@@ -13,7 +14,6 @@
     let createPlantMessage = null;
     let addPlantToGardenerMessage = null;
 
-    import { writable } from 'svelte/store';
     let plants = writable([]);
     const updatePlants = async () => {
         const result = await backend.getPlants();
@@ -70,6 +70,7 @@
             <input type="number" id="quantity" bind:value={quantity} />
         </div>
         <button class="add-to-gardener-button" on:click={addPlantToGardener}>Add to Gardener</button>
+        <button class="done-button" on:click={hideAddPlant}>Done</button>
     </div>
     {#if createPlantMessage !== null}
         <p class="create-plant-message">{createPlantMessage}</p>

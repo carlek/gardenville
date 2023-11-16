@@ -8,8 +8,10 @@
     import { onMount } from "svelte";
     import { backend } from "../declarations/backend/index.js";
     import { Principal } from "azle";
-    import Contest from "./Contest.svelte";
+
     import AddPlant from "./AddPlant.svelte";
+    import Contest from "./Contest.svelte";
+    import { activeAddPlantPage, activeContestPage, showAddPlant, showContest } from "../sharedStore";
 
     let gardenerName: string | null = null;
     let isInitialized = false;
@@ -38,26 +40,6 @@
         console.log(`signup: ${principal}`);
     };
 
-    let showContestPage = false;
-    let haveVoted = false;
-    const showContest = () => {
-        showContestPage = true;
-    }
-    const hideContest = () => {
-        showContestPage = false;
-        haveVoted = true;
-    }
-
-    let showAddPlantPage = false;
-    let haveAdded = false;
-    const showAddPlant = () => {
-        showAddPlantPage = true;
-    }
-    const hideAddPlant = () => {
-        showAddPlantPage = false;
-        haveAdded = true;
-    }
-
 </script>
 
 <main
@@ -79,23 +61,11 @@
                 {/if}
             </div>
             <div class="buttons-container">
-                {#if showContestPage}
-                    <button class="contest-button" on:click={hideContest}>Done</button>
-                {:else}
-                    {#if !haveVoted}
-                        <button class="contest-button" on:click={showContest} disabled={showAddPlantPage}>Contest</button>
-                    {/if}
-                {/if}
-                {#if showAddPlantPage}
-                    <button class="add-plant-button" on:click={hideAddPlant}>Done</button>
-                {:else}
-                    {#if !haveAdded}
-                        <button class="add-plant-button" on:click={showAddPlant} disabled={showContestPage}>Add Plant</button>
-                    {/if}
-                {/if}
+                <button class="contest-button" on:click={showContest} disabled={$activeAddPlantPage}>Contest</button>
+                <button class="add-plant-button" on:click={showAddPlant} disabled={$activeContestPage}>Add Plant</button>
             </div>
-            {#if showAddPlantPage} <AddPlant {principal} />{/if}
-            {#if showContestPage} <Contest {principal} />{/if}
+            {#if $activeAddPlantPage} <AddPlant {principal} />{/if}
+            {#if $activeContestPage} <Contest {principal} />{/if}
         {:else}
             <h1>Welcome to GardenVille!</h1>
             <h2>Sign up to start your Gardening Journey</h2>

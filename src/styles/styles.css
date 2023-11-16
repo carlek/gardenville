@@ -122,7 +122,7 @@ f
     top: calc(1rem + 60px);
     right: 40%;
     font-weight: bold;
-    text-align: left; /* Align text to the left */
+    text-align: left;
 }
 
 .buttons-container {
@@ -166,15 +166,15 @@ f
 }
 
 .vote-button {
-    bottom: 1rem;
-    background-color: #6479ff; /* Background color for the button */
+    left: 1rem;
+    background-color: #6479ff;
     border: none;
     color: white;
-    padding: 0.5rem 1rem; /* Added padding for the button */
-    border-radius: 4px; /* Rounded corners for the button */
-    font-weight: bold; /* Make the text bold for better visibility */
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s; /* Smooth transition for hover effect */
+    transition: background-color 0.2s;
     &:hover {background-color: #28b3e6;}
 }
 
@@ -243,6 +243,20 @@ f
     font-weight: bold;
     border-radius: 4px;
     background-color: #e6282e;
+}
+
+.done-button {
+    position: absolute;
+    right: 1rem;
+    background-color: #6479ff;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    &:hover {background-color: #28b3e6;}
 }
 
 .icp-logo {

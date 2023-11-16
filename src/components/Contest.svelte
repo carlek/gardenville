@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Principal } from "azle";
     import "../styles/styles.css";
+    import { hideContest } from "../sharedStore";
     export let principal: Principal | null;
 
     let contestEntries = [
@@ -43,6 +44,7 @@
             </div>
         {/each}
         <button class="vote-button" on:click={vote}>Vote</button>
+        <button class="done-button" on:click={hideContest}>Done</button>
     </div>
 
     {#if voteMessage !== null}
