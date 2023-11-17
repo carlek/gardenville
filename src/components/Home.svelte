@@ -64,8 +64,8 @@
             </div>
             <div class="buttons-container">
                 <button class="contest-button" on:click={showContest} disabled={$disableContestButton}>Contest</button>
-                <button class="add-plant-button" on:click={showAddPlant} disabled={$disableAddPlantButton}>Add Plant</button>
-                <button class="my-garden-button" on:click={showMyGarden} disabled={$disableMyGardenButton}>MyGarden</button>
+                <button class="addplant-button" on:click={showAddPlant} disabled={$disableAddPlantButton}>Add Plant</button>
+                <button class="mygarden-button" on:click={showMyGarden} disabled={$disableMyGardenButton}>MyGarden</button>
             </div>
             {#if $gotoAddPlant} <AddPlant {principal} />{/if}
             {#if $gotoContest} <Contest {principal} />{/if}
