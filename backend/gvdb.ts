@@ -86,13 +86,16 @@ export function getPlants(): Vec<Plant> {
 }
 
 $update;
-export function createPlant(name: string, details: string): nat16 {
-    var p_id: nat16;
+export function createPlant(name: string, details: string): Tuple<[nat16,string]> {
     const keys: nat16[] = plants.keys();
-    if (keys) p_id = Math.max(...keys) + 1;
-    else p_id = 1;
-    plants.insert(p_id, { id: p_id, name: name, details: details });
-    return (p_id);
+    try {
+        const p_id: nat16 = keys ? Math.max(...keys) + 1 : 1;
+        const newPlant: Plant = { id: p_id, name, details };
+        plants.insert(p_id, newPlant);
+        return [p_id, `${name} | ${details} created successfully`];
+    } catch (error) {
+        return [0, "Failed to create plant: " + error.message];
+    }
 }
 
 $update;

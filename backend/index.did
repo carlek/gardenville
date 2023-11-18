@@ -33,7 +33,7 @@ service : () -> {
   addGardenersPlant : (principal, nat16, nat16) -> ();
   addGardenersProduct : (principal, nat16, nat16) -> ();
   createGardener : (GardenerInfo) -> ();
-  createPlant : (text, text) -> (nat16);
+  createPlant : (text, text) -> (record { nat16; text });
   createProduct : (text, text) -> (nat16);
   deleteGardener : (principal) -> ();
   deleteGardenersPlant : (principal, nat16) -> ();

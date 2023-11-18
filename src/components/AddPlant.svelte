@@ -15,8 +15,7 @@
 
     const addNewPlant = async () => {
         if (plantName && plantDetails) {
-            plantId = await backend.createPlant(plantName, plantDetails);
-            createPlantMessage = `Plant ${plantName} created with ID ${plantId}.`;
+            [plantId, createPlantMessage] = await backend.createPlant(plantName, plantDetails);
             await updatePlants(); 
         } else {
             createPlantMessage = 'Please fill in both plant name and details.';
