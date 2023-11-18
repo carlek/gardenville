@@ -30,7 +30,7 @@ type _InlineTransferErrorGenericError = record {
 };
 type _InlineTransferErrorInsufficientFunds = record { balance : nat };
 service : () -> {
-  addGardenersPlant : (principal, nat16, nat16) -> ();
+  addGardenersPlant : (principal, nat16, nat16) -> (record { nat16; text });
   addGardenersProduct : (principal, nat16, nat16) -> ();
   createGardener : (GardenerInfo) -> ();
   createPlant : (text, text) -> (record { nat16; text });

@@ -24,7 +24,7 @@ export type GardenerInfo = Record<{
     contact: string;
 }>;
 
-type NatTuple = Tuple<[nat16, nat16]>;
+type NatTuple = Tuple<[id: nat16, quantity: nat16]>;
 
 export type Gardener = Record<{
     info: GardenerInfo;
@@ -59,7 +59,6 @@ export function createGardener(info: GardenerInfo): void {
 
 $update;
 export function deleteGardener(id: Principal): void {
-    console.log(`in deleteGardener(${id})`);
     if (!gardeners.containsKey(id)) {
         console.log(`Gardener with ID ${id} does not exist.`);
     } else {
@@ -71,7 +70,6 @@ export function deleteGardener(id: Principal): void {
 $query;
 export function getGardener(id: Principal): Opt<Gardener> {
     const gardener = gardeners.get(id);
-    console.log(gardener);
     return gardener;
 }
 
@@ -87,6 +85,12 @@ export function getPlants(): Vec<Plant> {
 
 $update;
 export function createPlant(name: string, details: string): Tuple<[nat16,string]> {
+    const n = name.toLowerCase();
+    const d = details.toLowerCase();
+    const existingPlant = plants.values().find(plant => plant.name.toLowerCase() === n && plant.details.toLowerCase() === d);
+    if (existingPlant) {
+        return [0, 'That plant and details already exists.'];
+    }
     const keys: nat16[] = plants.keys();
     try {
         const p_id: nat16 = keys ? Math.max(...keys) + 1 : 1;
@@ -112,32 +116,41 @@ export function deletePlant(plantId: nat16): void {
 }
 
 $update;
-export function addGardenersPlant(principal: Principal, plantId: nat16, quantity: nat16): void {
+export function addGardenersPlant(principal: Principal, plantId: nat16, quantity: nat16): Tuple<[nat16, string]> {
+    var result: Tuple<[nat16, string]>;
+    var p_id: nat16;
+    var p_name: string;
     const gardenerOpt = gardeners.get(principal);
     match(gardenerOpt, {
         Some: (gardener) => {
-            // check if plant exists or is new
             const plantOpt = plants.get(plantId);
-            var p_id: nat16;
-            var p_name: string;
             match(plantOpt, {
                 Some: (p) => {
                     p_id = p.id;
                     p_name = p.name;
                 },
                 None: () => {
-                    console.log(`Plant ${plantId} does not exist`);
+                    result = [0, `Plant ${plantId} does not exist`];
                 }
             });
-            gardener.plants.push([p_id, quantity]);
-            gardeners.remove(principal);
-            gardeners.insert(principal, gardener);
-            console.log(`Added ${quantity} ${p_name}(s) to plants for Gardener ${principal}`);
+            if (p_id) {
+                const existingPlantIndex = gardener.plants.findIndex((t) => t[0] === p_id);
+                if (existingPlantIndex !== -1) {
+                    var t = gardener.plants[existingPlantIndex];
+                    gardener.plants[existingPlantIndex] = [t[0], t[1]+quantity];
+                } else {
+                    gardener.plants.push([p_id, quantity]);
+                }
+                gardeners.remove(principal);
+                gardeners.insert(principal, gardener);
+                result = [plantId, `Added ${quantity} ${p_name}(s)`];
+            }
         },
         None: () => {
-            console.error(`Gardener ${principal} not found.`);
+            result = [0, `Gardener ${principal} not found.`];
         }
     });
+    return result;
 }
 
 $update;
