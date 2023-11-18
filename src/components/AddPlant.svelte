@@ -1,9 +1,8 @@
 <script lang="ts">
-    import { writable } from 'svelte/store';
     import { Principal } from "azle";
     import "../styles/styles.css";
     import { backend } from "../declarations/backend/index.js"; 
-    import { hideAddPlant } from '../sharedStore';
+    import { hideAddPlant, updatePlants, plants } from '../sharedStore';
     export let principal: Principal | null;
 
     let plantName = '';
@@ -14,18 +13,11 @@
     let createPlantMessage = null;
     let addPlantToGardenerMessage = null;
 
-    let plants = writable([]);
-    const updatePlants = async () => {
-        const result = await backend.getPlants();
-        plants.set(result);
-    };
-    updatePlants(); 
-
-    const createNewPlant = async () => {
+    const addNewPlant = async () => {
         if (plantName && plantDetails) {
             plantId = await backend.createPlant(plantName, plantDetails);
             createPlantMessage = `Plant ${plantName} created with ID ${plantId}.`;
-            updatePlants(); 
+            await updatePlants(); 
         } else {
             createPlantMessage = 'Please fill in both plant name and details.';
         }
@@ -54,7 +46,7 @@
             <label for="plantDetails">Details:</label>
             <textarea id="plantDetails" bind:value={plantDetails}></textarea>
         </div>
-        <button class="create-plant-button" on:click={createNewPlant}>Add to GardenVille</button>
+        <button class="create-plant-button" on:click={addNewPlant}>Add to GardenVille</button>
 
         <h3>Add Plant to Your Garden</h3>
         <div class="input-section">

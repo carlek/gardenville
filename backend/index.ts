@@ -26,6 +26,12 @@ export {
     deleteGardenersProduct,
 } from "./gvdb";
 
+export type {
+    Plant,
+    Product,
+    Gardener
+} from "./gvdb";
+
 import { $query, Principal, ic } from "azle";
 $query
 export function principalCaller(): Principal {

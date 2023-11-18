@@ -1,24 +1,24 @@
 import {
-    $query, $update, Opt, nat16, StableBTreeMap, Record, match, Vec, Principal, blob, Tuple,
+    $query, $update, Opt, nat16, StableBTreeMap, Record, match, Vec, Principal, Tuple,
 } from 'azle';
 
 ///////////////////////////
 // DB schema             //
 ///////////////////////////
 
-type Plant = Record<{
+export type Plant = Record<{
     id: nat16
     name: string;
     details: string;
 }>;
 
-type Product = Record<{
+export type Product = Record<{
     id: nat16
     name: string;
     details: string;
 }>;
 
-type GardenerInfo = Record<{
+export type GardenerInfo = Record<{
     id: Principal;
     name: string;
     contact: string;
@@ -71,6 +71,7 @@ export function deleteGardener(id: Principal): void {
 $query;
 export function getGardener(id: Principal): Opt<Gardener> {
     const gardener = gardeners.get(id);
+    console.log(gardener);
     return gardener;
 }
 

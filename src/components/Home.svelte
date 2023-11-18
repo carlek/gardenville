@@ -4,6 +4,7 @@
     export let principal: Principal | null;
     export let handleLogout: () => void;
     export let toggleSignup: () => void;
+    export let gardener: Gardener;
 
     import { onMount } from "svelte";
     import { backend } from "../declarations/backend/index.js";
@@ -13,11 +14,11 @@
     import Contest from "./Contest.svelte";
     import MyGarden from "./MyGarden.svelte";
     import { disableContestButton, disableAddPlantButton, showAddPlant, showContest, gotoAddPlant, gotoContest, disableMyGardenButton, showMyGarden, gotoMyGarden } from "../sharedStore";
+    import { updatePlants, updateProducts } from "../sharedStore";
+    import type { Gardener } from "../../backend";
     
-
+    let isInitialized: boolean = false;
     let gardenerName: string | null = null;
-    let isInitialized = false;
-    export let gardener;
     let balance: bigint;
     let symbol: string;
 
@@ -26,14 +27,16 @@
         symbol = await backend.getIcrcSymbol();
         balance = ('Ok' in result) ? result.Ok : null;
     };
-    
+
     onMount(async () => {
         if (isAuthenticated && principal) {
-            const result = await backend.getGardener(principal);
-            gardener = result[0];
+            const _gardener = await backend.getGardener(principal);
+            gardener = _gardener[0];
             gardenerName = gardener ? gardener.info.name : null;
-            fetchBalance(); 
             isInitialized = true;
+            fetchBalance();
+            updateProducts();
+            updatePlants();
         }
     });
 

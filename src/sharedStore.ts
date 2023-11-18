@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { backend } from "./declarations/backend/index";
 
 export const disableAddPlantButton = writable(false);
 export const gotoAddPlant = writable(false);
@@ -10,6 +11,9 @@ export const haveVoted = writable(false);
 
 export const disableMyGardenButton = writable(false);
 export const gotoMyGarden = writable(false);
+
+export const plants = writable(null);
+export const products = writable(null);
 
 export function showAddPlant() {
     disableContestButton.set(true);
@@ -48,3 +52,13 @@ export function hideMyGarden() {
     disableContestButton.set(false);
     gotoMyGarden.set(false);
 }
+
+export const updatePlants = async () => {
+    const result = await backend.getPlants();
+    plants.set(result);
+};
+
+export const updateProducts = async () => {
+    const result = await backend.getProducts();
+    products.set(result);
+};

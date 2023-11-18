@@ -8,6 +8,7 @@
 
     let isAuthenticated: boolean = false;
     let principal: Principal | null = null;
+    let gardener;
 
     onMount(() => {
         const storedIsAuthenticated = localStorage.getItem("isAuthenticated");
@@ -39,7 +40,7 @@
         <Signup {isAuthenticated} {principal} {toggleSignup}/>
     {:else}
         {#if isAuthenticated}
-            <Home {isAuthenticated} {principal} {handleLogout} {toggleSignup}/>
+            <Home {isAuthenticated} {principal} {handleLogout} {toggleSignup} {gardener}/>
         {:else}
             <Login bind:isAuthenticated bind:principal />
         {/if}

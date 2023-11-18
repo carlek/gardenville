@@ -1,27 +1,34 @@
 <script lang="ts">
-    import { hideMyGarden } from "../sharedStore";
+    import "../styles/styles.css";
+    import { hideMyGarden, plants, products } from "../sharedStore";
+    import type { Gardener } from "../../backend";
+    export let gardener: Gardener;
 
-    export let gardener;
 </script>
 
 <main>
     <div class="mygarden-container">
         <div class="column">
             <div class="row">
-                <h3>Plants:</h3>
                 <table class="styled-table">
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Plant</th>
+                            <th>Description</th>
                             <th>Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
                         {#each gardener.plants as [plantId, quantity]}
-                            <tr class="data-row">
-                                <td>{plantId}</td>
-                                <td>{quantity}</td>
-                            </tr>
+                            {#if $plants.find(plant => plant.id === plantId)}
+                                {#each $plants.filter(plant => plant.id === plantId) as plant}
+                                    <tr class="data-row">
+                                        <td>{plant.name}</td>
+                                        <td>{plant.details}</td>
+                                        <td>{quantity}</td>
+                                    </tr>
+                                {/each}
+                            {/if}
                         {/each}
                     </tbody>
                 </table>
@@ -29,20 +36,25 @@
         </div>
         <div class="column">
             <div class="row">
-                <h3>Products:</h3>
                 <table class="styled-table">
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Product</th>
+                            <th>Details</th>
                             <th>Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
                         {#each gardener.products as [productId, quantity]}
-                            <tr class="data-row">
-                                <td>{productId}</td>
-                                <td>{quantity}</td>
-                            </tr>
+                            {#if $products.find(product => product.id === productId)}
+                                {#each $products.filter(product => product.id === productId) as product}
+                                    <tr class="data-row">
+                                        <td>{product.name}</td>
+                                        <td>{product.details}</td>
+                                        <td>{quantity}</td>
+                                    </tr>
+                                {/each}
+                            {/if}
                         {/each}
                     </tbody>
                 </table>
@@ -50,11 +62,10 @@
         </div>
         <div class="column">
             <div class="row">
-                <h3>Contest Entry:</h3>
                 <table class="styled-table">
                     <thead>
                         <tr>
-                            <th>Entry ID</th>
+                            <th>Contest ID</th>
                             <th>Name</th>
                             <th>Details</th>
                         </tr>
@@ -71,54 +82,6 @@
                 </table>
             </div>
         </div>
+        <button class="done-button" on:click={hideMyGarden}>Close</button>
     </div>
-    <button class="done-button" on:click={hideMyGarden}>Close</button>
 </main>
-
-<style>
-    /* Style the container as a flex row */
-    .mygarden-container {
-        display: flex;
-        gap: 20px;
-    }
-
-    /* Style the column and row layout as needed */
-    .column {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .row {
-        display: flex;
-        gap: 10px;
-    }
-
-    /* Apply styling to tables */
-    .styled-table {
-        border-collapse: collapse;
-        width: 100%;
-        font-size: 0.9rem; /* Reduce font size */
-        border-radius: 10px; /* Round edges */
-        overflow: hidden; /* Hide overflow for rounded corners */
-    }
-
-    .styled-table th,
-    .styled-table td {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-        font-weight: bold; /* Bold font for values */
-    }
-
-    .styled-table th {
-        background-color: #6479ff; /* Blue background for column headers */
-        color: white; /* White font color for column headers */
-    }
-
-    /* Style for data rows */
-    .data-row {
-        background-color: white; /* White background for data rows */
-        color: black; /* Black font color for data rows */
-    }
-</style>
