@@ -12,45 +12,59 @@ export const haveVoted = writable(false);
 export const disableMyGardenButton = writable(false);
 export const gotoMyGarden = writable(false);
 
+export const disableDemoButton = writable(false);
+export const gotoDemo = writable(false);
+
 export const plants = writable(null);
 export const products = writable(null);
 
+function disableButtons(value: boolean) {
+    disableAddPlantButton.set(value);
+    disableContestButton.set(value);
+    disableMyGardenButton.set(value);
+    disableDemoButton.set(value);
+}
+
 export function showAddPlant() {
-    disableContestButton.set(true);
-    disableMyGardenButton.set(true);
+    disableButtons(true);
     gotoAddPlant.set(true);
 }
 
 export function hideAddPlant() {
-    disableContestButton.set(false);
-    disableMyGardenButton.set(false);
+    disableButtons(false);
     gotoAddPlant.set(false);
     haveAdded.set(true);
 }
 
 export function showContest() {
-    disableAddPlantButton.set(true);
-    disableMyGardenButton.set(true);
+    disableButtons(true);
     gotoContest.set(true);
 }
 
 export function hideContest() {
-    disableAddPlantButton.set(false);
-    disableMyGardenButton.set(false);
+    disableButtons(false);
     gotoContest.set(false);
     haveVoted.set(true);
 }
 
 export function showMyGarden() {
-    disableAddPlantButton.set(true);
-    disableContestButton.set(true);
+    disableButtons(true);
     gotoMyGarden.set(true);
 }
 
 export function hideMyGarden() {
-    disableAddPlantButton.set(false);
-    disableContestButton.set(false);
+    disableButtons(false);
     gotoMyGarden.set(false);
+}
+
+export function showDemo() {
+    disableButtons(true);
+    gotoDemo.set(true);
+}
+
+export function hideDemo() {
+    disableButtons(false);
+    gotoDemo.set(false);
 }
 
 export const updatePlants = async () => {

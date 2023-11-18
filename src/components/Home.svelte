@@ -13,7 +13,23 @@
     import AddPlant from "./AddPlant.svelte";
     import Contest from "./Contest.svelte";
     import MyGarden from "./MyGarden.svelte";
-    import { disableContestButton, disableAddPlantButton, showAddPlant, showContest, gotoAddPlant, gotoContest, disableMyGardenButton, showMyGarden, gotoMyGarden } from "../sharedStore";
+    import Demo from "./Demo.svelte";
+
+    import {
+        disableContestButton,
+        showContest,
+        gotoContest,
+        disableAddPlantButton,
+        showAddPlant,
+        gotoAddPlant,
+        disableMyGardenButton,
+        showMyGarden,
+        gotoMyGarden,
+        disableDemoButton,
+        showDemo,
+        gotoDemo,
+    } from "../sharedStore";
+
     import { updatePlants, updateProducts } from "../sharedStore";
     import type { Gardener } from "../../backend";
     
@@ -69,10 +85,12 @@
                 <button class="contest-button" on:click={showContest} disabled={$disableContestButton}>Contest</button>
                 <button class="addplant-button" on:click={showAddPlant} disabled={$disableAddPlantButton}>Add Plant</button>
                 <button class="mygarden-button" on:click={showMyGarden} disabled={$disableMyGardenButton}>MyGarden</button>
+                <button class="demo-button" on:click={showDemo} disabled={$disableDemoButton}>Demo</button>
             </div>
             {#if $gotoAddPlant} <AddPlant {principal} />{/if}
             {#if $gotoContest} <Contest {principal} />{/if}
             {#if $gotoMyGarden} <MyGarden {gardener} />{/if}
+            {#if $gotoDemo} <Demo />{/if}
         {:else}
             <h1>Welcome to GardenVille!</h1>
             <h2>Sign up to start your Gardening Journey</h2>

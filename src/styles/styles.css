@@ -154,7 +154,8 @@ f
     text-align: left;
 }
 
-.contest-button, .addplant-button, .mygarden-button {
+.contest-button, .addplant-button, .mygarden-button, .demo-button
+{
     position: static;
     bottom: 1rem;
     background-color: #6479ff; /* Background color for the button */
@@ -285,6 +286,11 @@ input {
     cursor: pointer;
     transition: background-color 0.2s;
     &:hover {background-color: #28b3e6;}
+}
+
+.table-container {
+    max-height: 300px; /* Adjust the max height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 /* Table styles */

@@ -1,20 +1,31 @@
 <script lang="ts">
     import "../styles/styles.css";
-    import { hideMyGarden, plants, products } from "../sharedStore";
+    import { hideDemo, plants, products, updatePlants, updateProducts } from "../sharedStore";
     import type { Gardener } from "../../backend";
     import { backend } from "../declarations/backend";
-    export var gardener: Gardener;
+    import { Principal } from "azle";
+    var gardener: Gardener;
 
-    const refreshGardener = async () => {
-        const _gardener = await backend.getGardener(gardener.info.id);
+    const getGardener = async () => { 
+        const demo_id: Principal = Principal.fromText("jrywm-b6exd-effuv-yadtk-vgbbr-vdskx-pqk5w-7bq3j-e2khf-dfqas-vae"); 
+        const _gardener = await backend.getGardener(demo_id);
         gardener = _gardener[0];
+        updatePlants();
+        updateProducts();
     };
 
-    refreshGardener();
+    $: if (gardener) {
+        $plants;    // trigger when gardener is available
+        $products; 
+    }
+
+    getGardener();
+
 
 </script>
 
 <main>
+    {#if gardener}
     <div class="mygarden-container">
         <div class="column">
             <div class="row">
@@ -96,6 +107,7 @@
                 </div>
             </div>
         </div>
-        <button class="done-button" on:click={hideMyGarden}>Close</button>
+        <button class="done-button" on:click={hideDemo}>Close</button>
     </div>
+    {/if}
 </main>
