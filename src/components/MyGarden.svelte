@@ -2,7 +2,15 @@
     import "../styles/styles.css";
     import { hideMyGarden, plants, products } from "../sharedStore";
     import type { Gardener } from "../../backend";
-    export let gardener: Gardener;
+    import { backend } from "../declarations/backend";
+    export var gardener: Gardener;
+
+    const refreshGardener = async () => {
+        const _gardener = await backend.getGardener(gardener.info.id);
+        gardener = _gardener[0];
+    };
+
+    refreshGardener();
 
 </script>
 

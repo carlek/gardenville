@@ -4,7 +4,7 @@
     export let principal: Principal | null;
     export let handleLogout: () => void;
     export let toggleSignup: () => void;
-    export let gardener: Gardener;
+    export var gardener: Gardener;
 
     import { onMount } from "svelte";
     import { backend } from "../declarations/backend/index.js";
@@ -33,7 +33,7 @@
             const _gardener = await backend.getGardener(principal);
             gardener = _gardener[0];
             gardenerName = gardener ? gardener.info.name : null;
-            isInitialized = true;
+             isInitialized = true;
             fetchBalance();
             updateProducts();
             updatePlants();
