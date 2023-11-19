@@ -85,16 +85,16 @@ export function getPlants(): Vec<Plant> {
 
 $update;
 export function createPlant(name: string, details: string): Tuple<[nat16,string]> {
-    const n = name.toLowerCase();
-    const d = details.toLowerCase();
-    const existingPlant = plants.values().find(plant => plant.name.toLowerCase() === n && plant.details.toLowerCase() === d);
+    const n = name.toLowerCase().trim();
+    const d = details.toLowerCase().trim();
+    const existingPlant = plants.values().find(plant => plant.name.toLowerCase().trim() === n && plant.details.toLowerCase().trim() === d);
     if (existingPlant) {
         return [0, 'That plant and details already exists.'];
     }
     const keys: nat16[] = plants.keys();
     try {
         const p_id: nat16 = keys ? Math.max(...keys) + 1 : 1;
-        const newPlant: Plant = { id: p_id, name, details };
+        const newPlant: Plant = { id: p_id, name: name.trim(), details: details.trim() };
         plants.insert(p_id, newPlant);
         return [p_id, `${name} | ${details} created successfully`];
     } catch (error) {
