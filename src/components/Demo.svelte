@@ -15,7 +15,7 @@
     };
 
     $: if (gardener) {
-        $plants;    // trigger when gardener is available
+        $plants;    // trigger these when gardener is available
         $products; 
     }
 

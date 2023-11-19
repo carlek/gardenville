@@ -26,8 +26,8 @@
         const gardenerId = principal; 
         createPlantMessage = null;
         if (plantId !== null && quantity !== null) {
+            [plantId, addPlantToGardenerMessage] =
             await backend.addGardenersPlant(gardenerId, plantId, quantity);
-            addPlantToGardenerMessage = `${quantity} of ${plantId} added`;
         } else {
             addPlantToGardenerMessage = 'Please specify plant ID and quantity';
         }
