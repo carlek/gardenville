@@ -200,13 +200,13 @@ export function createProduct(name: string, details: string): Tuple<[nat16,strin
 
 $update;
 export function deleteProduct(productId: nat16): void {
-    const productOpt = plants.get(productId);
+    const productOpt = products.get(productId);
     match(productOpt, {
         Some: (p) => {
             products.remove(p.id);
         },
         None: () => {
-            console.log(`Plant ${productId} does not exist.`);
+            console.log(`Product ${productId} does not exist.`);
         }
     });
 }
@@ -219,7 +219,7 @@ export function addGardenersProduct(principal: Principal, productId: nat16, quan
     const gardenerOpt = gardeners.get(principal);
     match(gardenerOpt, {
         Some: (gardener) => {
-            const productOpt = plants.get(productId);
+            const productOpt = products.get(productId);
             match(productOpt, {
                 Some: (p) => {
                     p_id = p.id;
@@ -232,10 +232,10 @@ export function addGardenersProduct(principal: Principal, productId: nat16, quan
             if (p_id) {
                 const existingProductIndex = gardener.products.findIndex((t) => t[0] === p_id);
                 if (existingProductIndex !== -1) {
-                    var t = gardener.plants[existingProductIndex];
-                    gardener.plants[existingProductIndex] = [t[0], t[1]+quantity];
+                    var t = gardener.products[existingProductIndex];
+                    gardener.products[existingProductIndex] = [t[0], t[1]+quantity];
                 } else {
-                    gardener.plants.push([p_id, quantity]);
+                    gardener.products.push([p_id, quantity]);
                 }
                 gardeners.remove(principal);
                 gardeners.insert(principal, gardener);

@@ -24,12 +24,12 @@
 
     const addProductToGardener = async () => {
         const gardenerId = principal; 
-        createProductMessage = null;
+        addProductToGardenerMessage = null;
         if (productId !== null && quantity !== null) {
             [productId, addProductToGardenerMessage] =
             await backend.addGardenersProduct(gardenerId, productId, quantity);
         } else {
-            addProductToGardenerMessage = 'Please specify plant ID and quantity';
+            addProductToGardenerMessage = 'Please specify product ID and quantity';
         }
     };
 </script>
@@ -49,7 +49,7 @@
 
         <h3>Add Product to Your Garden</h3>
         <div class="input-section">
-            <label for="productId">Plant:</label>
+            <label for="productId">Product:</label>
             <select id="productId" bind:value={productId}>
                 {#each $products as { id, name, details }}
                     <option value={id}>{name} 🪴 {details}</option>
