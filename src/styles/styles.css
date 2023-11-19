@@ -154,7 +154,7 @@ f
     text-align: left;
 }
 
-.contest-button, .addplant-button, .mygarden-button, .demo-button
+.contest-button, .addplant-button, .addproduct-button, .mygarden-button, .demo-button
 {
     position: static;
     bottom: 1rem;
@@ -229,20 +229,7 @@ input {
     border-radius: 4px;
 }
 
-.create-plant-button {
-    bottom: 1rem;
-    background-color: #6479ff; /* Background color for the button */
-    border: none;
-    color: white;
-    padding: 0.5rem 1rem; /* Added padding for the button */
-    border-radius: 4px; /* Rounded corners for the button */
-    font-weight: bold; /* Make the text bold for better visibility */
-    cursor: pointer;
-    transition: background-color 0.2s; /* Smooth transition for hover effect */
-    &:hover {background-color: #28b3e6;}
-}
-
-.create-plant-message {
+.create-plant-message, .create-product-message, . {
     position: absolute;
     bottom: 1rem;
     margin-top: 10px;
@@ -251,7 +238,7 @@ input {
     background-color: #e6282e;
 }
 
-.add-to-gardener-button {
+.add-to-garden-button, .add-to-gardenville-button {
     bottom: 1rem;
     background-color: #6479ff; /* Background color for the button */
     border: none;

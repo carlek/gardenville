@@ -180,13 +180,22 @@ export function getProducts(): Vec<Product> {
 }
 
 $update;
-export function createProduct(name: string, details: string): nat16 {
-    var p_id: nat16;
+export function createProduct(name: string, details: string): Tuple<[nat16,string]> {
+    const n = name.toLowerCase().trim();
+    const d = details.toLowerCase().trim();
+    const existingProduct = products.values().find(product => product.name.toLowerCase().trim() === n && product.details.toLowerCase().trim() === d);
+    if (existingProduct) {
+        return [0, 'That product and details already exists.'];
+    }
     const keys: nat16[] = products.keys();
-    if (keys) p_id = Math.max(...keys) + 1;
-    else p_id = 1;
-    products.insert(p_id, { id: p_id, name: name, details: details });
-    return (p_id);
+    try {
+        const p_id: nat16 = keys ? Math.max(...keys) + 1 : 1;
+        const newProduct: Product = { id: p_id, name: name.trim(), details: details.trim() };
+        products.insert(p_id, newProduct);
+        return [p_id, `${name} | ${details} created successfully`];
+    } catch (error) {
+        return [0, "Failed to create product: " + error.message];
+    }
 }
 
 $update;
@@ -203,32 +212,41 @@ export function deleteProduct(productId: nat16): void {
 }
 
 $update;
-export function addGardenersProduct(principal: Principal, productId: nat16, quantity: nat16): void {
+export function addGardenersProduct(principal: Principal, productId: nat16, quantity: nat16): Tuple<[nat16, string]> {
+    var result: Tuple<[nat16, string]>;
+    var p_id: nat16;
+    var p_name: string;
     const gardenerOpt = gardeners.get(principal);
     match(gardenerOpt, {
         Some: (gardener) => {
-            // check if plant exists or is new
-            const productOpt = products.get(productId);
-            var p_id: nat16;
-            var p_name: string;
+            const productOpt = plants.get(productId);
             match(productOpt, {
                 Some: (p) => {
                     p_id = p.id;
                     p_name = p.name;
                 },
                 None: () => {
-                    console.log(`Product ${productId} does not exist`);
+                    result = [0, `Product ${productId} does not exist`];
                 }
             });
-            gardener.products.push([p_id, quantity]);
-            gardeners.remove(principal);
-            gardeners.insert(principal, gardener);
-            console.log(`Added ${quantity} ${p_name}(s) to products for Gardener ${principal}`);
+            if (p_id) {
+                const existingProductIndex = gardener.products.findIndex((t) => t[0] === p_id);
+                if (existingProductIndex !== -1) {
+                    var t = gardener.plants[existingProductIndex];
+                    gardener.plants[existingProductIndex] = [t[0], t[1]+quantity];
+                } else {
+                    gardener.plants.push([p_id, quantity]);
+                }
+                gardeners.remove(principal);
+                gardeners.insert(principal, gardener);
+                result = [productId, `Added ${quantity} ${p_name}(s)`];
+            }
         },
         None: () => {
-            console.error(`Gardener ${principal} not found.`);
+            result = [0, `Gardener ${principal} not found.`];
         }
     });
+    return result;
 }
 
 $update;

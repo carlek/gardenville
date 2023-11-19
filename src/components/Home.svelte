@@ -11,9 +11,9 @@
     import { Principal } from "azle";
 
     import AddPlant from "./AddPlant.svelte";
+    import AddProduct from "./AddProduct.svelte";
     import Contest from "./Contest.svelte";
     import MyGarden from "./MyGarden.svelte";
-    import Demo from "./Demo.svelte";
 
     import {
         disableContestButton,
@@ -22,6 +22,9 @@
         disableAddPlantButton,
         showAddPlant,
         gotoAddPlant,
+        disableAddProductButton,
+        showAddProduct,
+        gotoAddProduct,
         disableMyGardenButton,
         showMyGarden,
         gotoMyGarden,
@@ -32,6 +35,7 @@
 
     import { updatePlants, updateProducts } from "../sharedStore";
     import type { Gardener } from "../../backend";
+    import Demo from "./Demo.svelte";
     
     let isInitialized: boolean = false;
     let gardenerName: string | null = null;
@@ -82,12 +86,14 @@
                 {/if}
             </div>
             <div class="buttons-container">
-                <button class="contest-button" on:click={showContest} disabled={$disableContestButton}>Contest</button>
                 <button class="addplant-button" on:click={showAddPlant} disabled={$disableAddPlantButton}>Add Plant</button>
+                <button class="addproduct-button" on:click={showAddProduct} disabled={$disableAddProductButton}>Add Product</button>
                 <button class="mygarden-button" on:click={showMyGarden} disabled={$disableMyGardenButton}>MyGarden</button>
+                <button class="contest-button" on:click={showContest} disabled={$disableContestButton}>Contest</button>
                 <button class="demo-button" on:click={showDemo} disabled={$disableDemoButton}>Demo</button>
             </div>
             {#if $gotoAddPlant} <AddPlant {principal} />{/if}
+            {#if $gotoAddProduct} <AddProduct {principal} />{/if}
             {#if $gotoContest} <Contest {principal} />{/if}
             {#if $gotoMyGarden} <MyGarden {gardener} />{/if}
             {#if $gotoDemo} <Demo />{/if}

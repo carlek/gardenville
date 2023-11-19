@@ -45,7 +45,7 @@
             <label for="plantDetails">Details:</label>
             <textarea id="plantDetails" bind:value={plantDetails}></textarea>
         </div>
-        <button class="create-plant-button" on:click={addNewPlant}>Add to GardenVille</button>
+        <button class="add-to-gardenville-button" on:click={addNewPlant}>Add to GardenVille</button>
 
         <h3>Add Plant to Your Garden</h3>
         <div class="input-section">
@@ -60,7 +60,7 @@
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" bind:value={quantity} />
         </div>
-        <button class="add-to-gardener-button" on:click={addPlantToGardener}>Add to Garden</button>
+        <button class="add-to-garden-button" on:click={addPlantToGardener}>Add to Garden</button>
         <button class="done-button" on:click={hideAddPlant}>Done</button>
     </div>
     {#if createPlantMessage !== null}

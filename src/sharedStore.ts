@@ -5,6 +5,9 @@ export const disableAddPlantButton = writable(false);
 export const gotoAddPlant = writable(false);
 export const haveAdded = writable(false);
 
+export const disableAddProductButton = writable(false);
+export const gotoAddProduct = writable(false);
+
 export const disableContestButton = writable(false);
 export const gotoContest = writable(false);
 export const haveVoted = writable(false);
@@ -20,6 +23,7 @@ export const products = writable(null);
 
 function disableButtons(value: boolean) {
     disableAddPlantButton.set(value);
+    disableAddProductButton.set(value);
     disableContestButton.set(value);
     disableMyGardenButton.set(value);
     disableDemoButton.set(value);
@@ -33,6 +37,17 @@ export function showAddPlant() {
 export function hideAddPlant() {
     disableButtons(false);
     gotoAddPlant.set(false);
+    haveAdded.set(true);
+}
+
+export function showAddProduct() {
+    disableButtons(true);
+    gotoAddProduct.set(true);
+}
+
+export function hideAddProduct() {
+    disableButtons(false);
+    gotoAddProduct.set(false);
     haveAdded.set(true);
 }
 
