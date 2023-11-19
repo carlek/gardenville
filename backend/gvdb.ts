@@ -93,7 +93,7 @@ export function createPlant(name: string, details: string): Tuple<[nat16,string]
     }
     const keys: nat16[] = plants.keys();
     try {
-        const p_id: nat16 = keys ? Math.max(...keys) + 1 : 1;
+        const p_id: nat16 = keys.length ? Math.max(...keys) + 1 : 1;
         const newPlant: Plant = { id: p_id, name: name.trim(), details: details.trim() };
         plants.insert(p_id, newPlant);
         return [p_id, `${name} | ${details} created successfully`];
@@ -189,7 +189,7 @@ export function createProduct(name: string, details: string): Tuple<[nat16,strin
     }
     const keys: nat16[] = products.keys();
     try {
-        const p_id: nat16 = keys ? Math.max(...keys) + 1 : 1;
+        const p_id: nat16 = keys.length ? Math.max(...keys) + 1 : 1;
         const newProduct: Product = { id: p_id, name: name.trim(), details: details.trim() };
         products.insert(p_id, newProduct);
         return [p_id, `${name} | ${details} created successfully`];
