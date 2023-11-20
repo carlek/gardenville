@@ -95,13 +95,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {#each gardener.contestEntry as { id, name, details }}
+                            <!-- {#each gardener.contestEntry as { id, name, details }}
                                 <tr class="data-row">
                                     <td>{id}</td>
                                     <td>{name}</td>
                                     <td>{details}</td>
                                 </tr>
-                            {/each}
+                            {/each} -->
                         </tbody>
                     </table>
                 </div>

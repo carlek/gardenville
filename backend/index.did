@@ -1,6 +1,11 @@
 type Account = record { owner : principal; subaccount : opt vec nat8 };
+type ContestEntry = record { plant : nat16; product : nat16 };
+type ContestVotes = record {
+  plant : record { nat16; nat16 };
+  product : record { nat16; nat16 };
+};
 type Gardener = record {
-  contestEntry : vec Plant;
+  contestEntry : ContestEntry;
   plants : vec record { nat16; nat16 };
   info : GardenerInfo;
   products : vec record { nat16; nat16 };
@@ -30,17 +35,22 @@ type _InlineTransferErrorGenericError = record {
 };
 type _InlineTransferErrorInsufficientFunds = record { balance : nat };
 service : () -> {
-  addGardenersPlant : (principal, nat16, nat16) -> (record { nat16; text });
-  addGardenersProduct : (principal, nat16, nat16) -> (record { nat16; text });
+  addGardenerContestEntry : (principal, ContestVotes) -> ();
+  addGardenerPlant : (principal, nat16, nat16) -> (record { nat16; text });
+  addGardenerProduct : (principal, nat16, nat16) -> (record { nat16; text });
+  createContestEntry : (principal, text, nat16) -> (
+      record { ContestVotes; text },
+    );
   createGardener : (GardenerInfo) -> ();
   createPlant : (text, text) -> (record { nat16; text });
   createProduct : (text, text) -> (record { nat16; text });
   deleteGardener : (principal) -> ();
-  deleteGardenersPlant : (principal, nat16) -> ();
-  deleteGardenersProduct : (principal, nat16) -> ();
+  deleteGardenerPlant : (principal, nat16) -> ();
+  deleteGardenerProduct : (principal, nat16) -> ();
   deletePlant : (nat16) -> ();
   deleteProduct : (nat16) -> ();
   getBalance : (Account) -> (ManualReply) query;
+  getContest : () -> (vec ContestVotes) query;
   getGardener : (principal) -> (opt Gardener) query;
   getGardeners : () -> (vec Gardener) query;
   getIcrcName : () -> (text) query;

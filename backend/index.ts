@@ -16,14 +16,17 @@ export {
     getGardeners,
     getPlants,
     getProducts,
+    getContest,
     createPlant,
     deletePlant,
-    addGardenersPlant,
-    deleteGardenersPlant,
+    addGardenerPlant,
+    deleteGardenerPlant,
     createProduct,
     deleteProduct,
-    addGardenersProduct,
-    deleteGardenersProduct,
+    addGardenerProduct,
+    deleteGardenerProduct,
+    createContestEntry,
+    addGardenerContestEntry
 } from "./gvdb";
 
 export type {

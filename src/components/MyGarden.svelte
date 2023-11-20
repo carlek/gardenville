@@ -78,19 +78,17 @@
                     <table class="styled-table">
                         <thead>
                             <tr>
-                                <th>Contest ID</th>
-                                <th>Name</th>
-                                <th>Details</th>
+                                <th>Plant</th>
+                                <th>Product</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {#each gardener.contestEntry as { id, name, details }}
-                                <tr class="data-row">
-                                    <td>{id}</td>
-                                    <td>{name}</td>
-                                    <td>{details}</td>
-                                </tr>
-                            {/each}
+                            <tr class="data-row">
+                                {#each $plants.filter(plant => plant.id === gardener.contestEntry.plant) as plant} {#each $products.filter(product => product.id === gardener.contestEntry.product) as product}
+                                    <td>{plant.name}</td>
+                                    <td>{product.name}</td>
+                                {/each} {/each}
+                            </tr>
                         </tbody>
                     </table>
                 </div>

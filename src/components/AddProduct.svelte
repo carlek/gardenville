@@ -27,7 +27,7 @@
         addProductToGardenerMessage = null;
         if (productId !== null && quantity !== null) {
             [productId, addProductToGardenerMessage] =
-            await backend.addGardenersProduct(gardenerId, productId, quantity);
+            await backend.addGardenerProduct(gardenerId, productId, quantity);
         } else {
             addProductToGardenerMessage = 'Please specify product ID and quantity';
         }

@@ -26,11 +26,21 @@ export type GardenerInfo = Record<{
 
 type NatTuple = Tuple<[id: nat16, quantity: nat16]>;
 
+export type ContestEntry = Record<{
+    plant: nat16;
+    product: nat16;
+}>;
+
 export type Gardener = Record<{
     info: GardenerInfo;
     plants: Vec<NatTuple>;  // (plant id, quantity)
     products: Vec<NatTuple>; // (product id, quantity)
-    contestEntry: Vec<Plant>;
+    contestEntry: ContestEntry;
+}>;
+
+export type ContestVotes = Record<{
+    plant: NatTuple;  // (id, votecount)
+    product: NatTuple;
 }>;
 
 ///////////////////////////
@@ -40,6 +50,7 @@ export type Gardener = Record<{
 let gardeners = new StableBTreeMap<Principal, Gardener>(0, 100, 10_000);
 let plants = new StableBTreeMap<nat16, Plant>(1, 100, 10_000);
 let products = new StableBTreeMap<nat16, Product>(2, 100, 10_000);
+let contest = new StableBTreeMap<Principal, ContestVotes>(3, 100, 10_000);
 
 $update;
 export function createGardener(info: GardenerInfo): void {
@@ -50,7 +61,7 @@ export function createGardener(info: GardenerInfo): void {
             info: info,
             plants: [],
             products: [],
-            contestEntry: []
+            contestEntry: {plant: 0, product: 0}
         };
         gardeners.insert(info.id, newGardener);
         console.log(`Gardener ${info.name} added successfully.`);
@@ -81,6 +92,11 @@ export function getGardeners(): Vec<Gardener> {
 $query;
 export function getPlants(): Vec<Plant> {
     return plants.values();
+}
+
+$query;
+export function getContest(): Vec<ContestVotes> {
+    return contest.values();
 }
 
 $update;
@@ -116,7 +132,7 @@ export function deletePlant(plantId: nat16): void {
 }
 
 $update;
-export function addGardenersPlant(principal: Principal, plantId: nat16, quantity: nat16): Tuple<[nat16, string]> {
+export function addGardenerPlant(principal: Principal, plantId: nat16, quantity: nat16): Tuple<[nat16, string]> {
     var result: Tuple<[nat16, string]>;
     var p_id: nat16;
     var p_name: string;
@@ -154,7 +170,7 @@ export function addGardenersPlant(principal: Principal, plantId: nat16, quantity
 }
 
 $update;
-export function deleteGardenersPlant(id: Principal, plantId: nat16): void {
+export function deleteGardenerPlant(id: Principal, plantId: nat16): void {
     const gardenerOpt = gardeners.get(id);
     match(gardenerOpt, {
         Some: (gardener) => {
@@ -212,7 +228,7 @@ export function deleteProduct(productId: nat16): void {
 }
 
 $update;
-export function addGardenersProduct(principal: Principal, productId: nat16, quantity: nat16): Tuple<[nat16, string]> {
+export function addGardenerProduct(principal: Principal, productId: nat16, quantity: nat16): Tuple<[nat16, string]> {
     var result: Tuple<[nat16, string]>;
     var p_id: nat16;
     var p_name: string;
@@ -250,7 +266,7 @@ export function addGardenersProduct(principal: Principal, productId: nat16, quan
 }
 
 $update;
-export function deleteGardenersProduct(id: Principal, productId: nat16): void {
+export function deleteGardenerProduct(id: Principal, productId: nat16): void {
     const gardenerOpt = gardeners.get(id);
     match(gardenerOpt, {
         Some: (gardener) => {
@@ -266,6 +282,63 @@ export function deleteGardenersProduct(id: Principal, productId: nat16): void {
         },
         None: () => {
             console.log(`Gardener ${id} not found.`);
+        }
+    });
+}
+
+$update;
+export function createContestEntry(id: Principal, type: string, p_id: nat16): Tuple<[ContestVotes,string]> {
+    const contestVotesOpt = contest.get(id);
+    var newEntry: ContestVotes;
+    let result: Tuple<[ContestVotes, string]>;
+    match(contestVotesOpt, {
+        Some: (cv) => {
+            const plantData = cv.plant;
+            const productData = cv.product;
+            if ((type === "plant" && plantData[0] === p_id) ||
+                (type === "product" && productData[0] === p_id)) {
+                result = [null, `Entry exists for ${type} ${p_id}`]
+            } else {
+                if (type === "plant") {
+                    newEntry = {plant: [p_id, 0], product: cv.product};
+                } else {
+                    newEntry = {plant: cv.plant, product: [p_id, 0]};
+                }
+                console.log("1 here");
+                contest.remove(id);
+                contest.insert(id, newEntry);
+                console.log("2 here", contest.values);
+                result = [newEntry, `Contest for ${type} ${p_id} added`];
+            }
+        },
+        None: () => {
+            if (type === "plant") {
+                newEntry = {plant: [p_id, 0], product: [0, 0]};
+            } else {
+                newEntry = {plant: null, product: [p_id, 0]};
+            }
+            console.log("3 here");
+            contest.insert(id, newEntry);
+            console.log("4 here", contest.values);
+            result = [newEntry, `Contest for ${type} ${p_id} added`];
+        }
+    });
+    if (result[0] !== null) {
+        addGardenerContestEntry(id, newEntry);
+    }
+    return result;
+}
+
+$update;
+export function addGardenerContestEntry(id: Principal, newEntry: ContestVotes): void {
+    const gardenerOpt = gardeners.get(id);
+    match(gardenerOpt, {
+        Some: (gardener) => {
+            gardener.contestEntry.plant[0] = newEntry.plant[0];
+            gardener.contestEntry.product[0] = newEntry.product[0];
+        },
+        None: () => {
+            console.log(`addGardenerContestEntry ${id} not found.`);
         }
     });
 }

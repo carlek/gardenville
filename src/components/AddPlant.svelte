@@ -27,7 +27,7 @@
         createPlantMessage = null;
         if (plantId !== null && quantity !== null) {
             [plantId, addPlantToGardenerMessage] =
-            await backend.addGardenersPlant(gardenerId, plantId, quantity);
+            await backend.addGardenerPlant(gardenerId, plantId, quantity);
         } else {
             addPlantToGardenerMessage = 'Please specify plant ID and quantity';
         }
